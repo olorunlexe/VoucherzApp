@@ -1,0 +1,26 @@
+@media screen and (min-width: 600px) {
+  .PrimarySearchAppBar-menuButton-146 {
+    margin-left: -12px;
+    margin-right: 20px;
+    opacity: 0;
+  }
+}
+
+.integration-button-container{
+    padding: 10px 12px;
+    border: 0px;
+    border-radius: 2px;
+    margin: 0 4px;
+    color: white;
+    font-weight: bold;
+    background-color: #232f3e52;
+}
+
+/* min-height of navbar */
+.MuiToolbar-regular-165 {
+  min-height: 60px !important;
+}
+.MuiAppBar-colorPrimary-161 {
+  color: #fff;
+  background-color: #2d95a2 !important;
+}

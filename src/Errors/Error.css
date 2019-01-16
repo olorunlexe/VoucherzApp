@@ -1,0 +1,11 @@
+.background-parent-page-child-image{
+   width:100%;
+   height: 82vmin;
+}
+.background-parent-page{
+    background: url('../Image/Error404Page.jpg');
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 38.5vmax;
+    background-size: cover;
+}

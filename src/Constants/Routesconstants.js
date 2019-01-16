@@ -1,0 +1,11 @@
+export const LANDING = '/dashboard';
+export const VOUCHERS_REDEEMED = '/signup';
+export const VERIFY_VOUCHERS= '/signin';
+export const TRANSACTION = '/';
+export const ACCOUNT = '/account';
+export const ADMIN = '/admin';
+export const PASSWORD_FORGET = '/pw-forget';
+export const PROFILE= '/profile';
+export const BASE_URL= '/voucherize';
+export const HISTORY= '/history';
+export const VIEWS= '/views';
