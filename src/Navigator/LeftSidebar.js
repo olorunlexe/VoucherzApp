@@ -20,13 +20,14 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import {Redirect} from 'react-router-dom';
 import {history} from '../index';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
+import { BrowserRouter as Router,Switch,Route} from 'react-router-dom';
 // import {history} from '../index';
 
 const categories = [
   {
     id: '',
     children: [
-      { id: 'Vouchers', icon: <PeopleIcon />, active: false, url:"/vouchers" },
+      { id: 'Vouchers', icon: <PeopleIcon />, active: false, url:"/dashboard" },
       { id: 'Campaigns', icon: <DnsRoundedIcon />, url:"/Database"  },
       { id: 'Distributions', icon: <PermMediaOutlinedIcon />, url:"/Storage"  }
     ],
@@ -146,6 +147,7 @@ class Navigator extends Component {
                        )}
                      >
                        <ListItemIcon>{icon}</ListItemIcon>
+
                        <ListItemText
                          classes={{
                            primary: classes.itemPrimary,

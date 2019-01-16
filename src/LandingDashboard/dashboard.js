@@ -186,7 +186,7 @@ class Paperbase extends React.Component {
             <CssBaseline/>
             <nav className={classes.drawer}>
               <Hidden smUp implementation="js">
-              <Route path='*' render={
+              <Route path='*' render={  
                   props => (
                   <LeftSidebar
                   PaperProps={{ style: { width: drawerWidth } }}

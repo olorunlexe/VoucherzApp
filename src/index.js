@@ -37,7 +37,7 @@ const getConfirmation = (message, callback) => {
 const app = (
     <Provider store={store}>
     <BrowserRouter
-        basename={Routes.BASE_URL}
+        // basename={Routes.BASE_URL}
         forceRefresh={!supportsHistory}
         getUserConfirmation={getConfirmation}
         keyLength={12}

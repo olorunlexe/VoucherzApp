@@ -26,13 +26,23 @@ class App extends React.Component {
     };
   }
 
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  };
+
+  setTimePassed() {
+    this.setState({timePassed: true});
+ }
+ 
+ 
+
   render() {
     const { classes } = this.props;
     
    const loader =  (<LoadingPage/>); // render the circular-loader when app is not ready
     return (
     <div>
-        <Dashboard/>
+                <Dashboard/>
           {/* <LandingpageHome/> */}
     </div>
     );
