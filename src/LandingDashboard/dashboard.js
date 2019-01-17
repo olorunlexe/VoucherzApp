@@ -10,6 +10,7 @@ import * as actionTypes from '../store/action';
 import RouterMain from '../routermain';
 import {connect} from 'react-redux';
 import Loading from '../Loader/Loader';
+import {withRouter} from 'react-router-dom'
 
 
 
@@ -240,4 +241,4 @@ const mapStateToProps = state =>{
     mobileOpen:state.mobRed.mobileOpen
   }
 }
-export default withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(Paperbase));
+export default withRouter(withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(Paperbase)));
