@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import ErrorImage from '../Image/Error404Page.jpg';
 import './Error.css';
 
 class Error extends Component {

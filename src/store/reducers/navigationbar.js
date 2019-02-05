@@ -1,10 +1,9 @@
 import * as actionTypes from '../action';
 
 
-
-
 const initialState = {
-    authenticate:false
+    authenticate:false,
+    
 }
 const navigationbar = (state = initialState,action)=>{
     switch(action.type){

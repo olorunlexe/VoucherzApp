@@ -63,6 +63,7 @@ html, body {margin:0; padding:0;}
   position:absolute;
   left:2em;
   width:12.66%;
+  margin:-20px auto;
   max-width:11.8em;
   letter-spacing:-.5em;
   white-space:nowrap;

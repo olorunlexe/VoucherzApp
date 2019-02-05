@@ -11,22 +11,28 @@ import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import * as actionTypes from '../../store/action';
+import {connect} from 'react-redux';
 import red from "@material-ui/core/colors/red";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { openBulk } from '../../store/actionCreator';
 
 const styles = theme => ({
   card: {
     maxWidth: "314px",
     margin: "0px auto",
     borderRadius:"0px",
+    cursor:'pointer',
     border:"4px solid #eeeeee"
   },
   media: {
     height: 0,
-    paddingTop: "50.25%" // 16:9
+    paddingTop: "50.25%", // 16:9
+    width: '50%',
+    margin: '0 auto'
   },
   actions: {
     display: "flex"
@@ -46,6 +52,14 @@ const styles = theme => ({
   },
   avatar: {
     backgroundColor: 'transparent'
+  },
+  smallheader:{
+    fontSize: 20,
+    fontWeight: 600,
+    color: '#556080'
+  },
+  Typography_des:{
+    color:'rgb(85, 96, 128)'
   }
 });
 
@@ -57,52 +71,45 @@ class CreateCampignCard extends React.Component {
     this.setState(state => ({ expanded: !state.expanded }));
   };
 
+
   render() {
-    const { classes } = this.props;
+    const { classes,urlProps,onClick } = this.props;
 
     return (
-      <Card className={classes.card}>
+      <Card 
+        className={classes.card}
+        onClick={()=> onClick(urlProps.categoryType)}
+        >
         <CardHeader
-          avatar={
+          avatar = {
             <span aria-label="Recipe" className={classes.avatar}>
-              <small>step1</small>
+              <small className={classes.smallheader}>{urlProps.categoryType}</small>
             </span>
           }
         />
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/paella.jpg"
-          title="Bulk Code"
+          image={this.props.urlProps.url}
+          title={this.props.urlProps.categoryType}
         />
         <CardContent>
-          <Typography component="p">
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests. Add 1 cup of frozen peas along with
-            the mussels, if you like.
+          <Typography component="p" className={classes.Typography_des}>
+            {this.props.urlProps.description}
           </Typography>
         </CardContent>
-        <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton
-            className={classnames(classes.expand, {
-              [classes.expandOpen]: this.state.expanded
-            })}
-            onClick={this.handleExpandClick}
-            aria-expanded={this.state.expanded}
-            aria-label="Show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        </CardActions>
-        <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-          <CardContent />
-        </Collapse>
       </Card>
     );
   }
 }
+const mapDispatchToProps = dispatch =>{
+  return {
+    handleTooglecard:()=>dispatch({type:actionTypes.CARDTOOGLE}),
+  }
+}
+
 
 CreateCampignCard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(CreateCampignCard);
+export default withStyles(styles)(connect(null,mapDispatchToProps)(CreateCampignCard));

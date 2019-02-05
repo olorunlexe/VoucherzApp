@@ -4,16 +4,19 @@ import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import LeftSidebar from '../Navigator/LeftSidebar';
-import Header from '../headerComponent/headersubComponent';
-import {Route,Router,Switch} from 'react-router-dom';
-import * as actionTypes from '../store/action';
+import Header from '../HeaderAppBar/headersubComponent';
+import {Route} from 'react-router-dom';
 import RouterMain from '../routermain';
-import {connect} from 'react-redux';
 import Loading from '../Loader/Loader';
-import {withRouter} from 'react-router-dom'
-
-
-
+import {connect} from 'react-redux';
+import {Allvouchers} from '../Async_Reg_reduxthunk/Thunk/voucherThunk';
+import * as Routeconstants from '../Constants/Routesconstants';
+import {withRouter} from 'react-router-dom';
+import {ToastContainer} from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import InfiniteScroll from 'react-infinite-scroller';
+import LoadingInfiniteScroll from '../Common/circleLoader_buttonred/circleLoader_buttonred';
+import {keycloak} from '../keycloak-config/keycloak';
 
 let theme = createMuiTheme({
   typography: {
@@ -152,7 +155,7 @@ const styles = () => ({
   },
   mainContent: {
     flex: 1,
-    padding: '45px 30px 30px',
+    padding: '26px 12px 30px',
     background: '#dee2e3',
   },
 });
@@ -162,14 +165,25 @@ class Paperbase extends React.Component {
     super(props);
     this.state = {
       mobileOpen: false,
-      isLoading:true
+      isLoading:true,
+      search:'',
+      suggestions:[],
+
+      keycloak: null, 
+      authenticated: false
     };
+    this.handleOnChangeSearch = this.handleOnChangeSearch.bind(this);
   }
 
   //  this is the loader component- rendered
- componentDidMount(){
-  setTimeout(() => this.setState({ isLoading: false }), 1500);
-}
+  componentDidMount(){
+      // keycloak.init({onLoad: 'login-required'}).then(authenticated => {
+      //   this.setState({ keycloak: keycloak, authenticated: authenticated })
+      // })
+
+        setTimeout(() => this.setState({ isLoading: false }), 100);
+        this.props.Allvouchers();
+  }
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
@@ -177,51 +191,97 @@ class Paperbase extends React.Component {
   setTimePassed() {
     this.setState({timePassed: true});
  }
- 
 
+ handleOnChangeSearch = e =>{
+   let value = e.target.value;
+   this.setState({
+     search: value
+   })
+   let suggestions = [];
+   if(value.length > 0){
+    const regex = new RegExp(`^${value}`, 'i');
+    suggestions = this.props.vouchers.sort().filter(
+        v => {
+          return regex.test(v.code) 
+            || regex.test(v.voucherType)
+            || regex.test(v.voucherStatus)
+        })
+   }
+   this.setState(()=>({suggestions}))
+    
+ }
+  handleloadMore = e =>{
+    
+  }
+ 
   render() {
+    
     const { classes } = this.props;
-   const landingDashboard = (
+     const landingDashboard = (
     <MuiThemeProvider theme={theme}>
-            <div className={classes.root}>
-            <CssBaseline/>
-            <nav className={classes.drawer}>
-              <Hidden smUp implementation="js">
-              <Route path='*' render={  
-                  props => (
-                  <LeftSidebar
-                  PaperProps={{ style: { width: drawerWidth } }}
-                  variant="temporary"
-                  open={this.state.mobileOpen}
-                  onClose={this.handleDrawerToggle}
-                  {...props}
-                />
-                  )
-                }/>
-               
-              </Hidden>
-              <Hidden xsDown implementation="css">
-                <Route path='*' render={
-                  props => (
-                    <LeftSidebar PaperProps={{ style: { width: drawerWidth } }} {...props} />
-                  )
-                }/>
-               
-              </Hidden>
-            </nav>
-            <div className={classes.appContent}>
-              <Header onDrawerToggle={this.handleDrawerToggle} />
-              <main className={classes.mainContent}>
-                  {this.state.isLoading?<Loading/>:<RouterMain/>}
-              </main>
+        {
+            // (this.state.keycloak) &&
+              <div className={classes.root}>
+              <CssBaseline/>
+              <nav className={classes.drawer}>
+                <Hidden smUp implementation="js">
+                <Route path={Routeconstants.LANDING} render={  
+                    props => (
+                    <LeftSidebar
+                    PaperProps={{ style: { width: drawerWidth } }}
+                    variant="temporary"
+                    open={this.state.mobileOpen}
+                    onClose={this.handleDrawerToggle}
+                    {...props}
+                  />
+                    )
+                  }/>
+                
+                </Hidden>
+                <Hidden xsDown implementation="css">
+                  <Route path={Routeconstants.LANDING} render={
+                    props => (
+                      <LeftSidebar PaperProps={{ style: { width: drawerWidth } }} {...props} />
+                    )
+                  }/>
+                
+                </Hidden>
+              </nav>
+              <div className={classes.appContent}>
+              <Route path={Routeconstants.LANDING} render={
+                    props => (
+                      <Header  
+                        onDrawerToggle={this.handleDrawerToggle} 
+                        {...props}
+                        {...this.state}
+                        handleOnChangeSearch={this.handleOnChangeSearch}
+                        vouchers={this.props.vouchers}
+                        />
+                    )
+                  }/>
+                
+                <main id="main" className={classes.mainContent}>
+                    <ToastContainer autoClose={3000}/>
+                    {this.state.isLoading?<Loading/>:<RouterMain/>}
+                </main>
+              </div>
             </div>
-          </div>
+        }
         </MuiThemeProvider>
    );
     return (
-    <div>
-          {landingDashboard}
-  </div>
+      <div ref={(ref) => this.scrollParentRef = ref}>
+        <div>
+            <InfiniteScroll
+            pageStart={0}
+            loadMore={this.handleloadMore}
+            hasMore={true || false}
+            loader={<LoadingInfiniteScroll/>}
+            >
+              {landingDashboard}
+            </InfiniteScroll>
+        </div>
+    </div>
     );
   }
 }
@@ -230,15 +290,16 @@ Paperbase.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapDispatchToProps = dispatch =>{
+const mapStateToProps = (state) => {
   return {
-    handleToogleMobile:()=>dispatch({type:actionTypes.MOBILETOOGLE})
+    vouchers:state.voucher.vouchers
   }
 }
 
-const mapStateToProps = state =>{
+const mapDispatchToProps = (dispatch) => {
   return {
-    mobileOpen:state.mobRed.mobileOpen
+    Allvouchers: () => dispatch(Allvouchers()),
   }
-}
+} 
+
 export default withRouter(withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(Paperbase)));

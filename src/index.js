@@ -1,23 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route } from 'react-router-dom';
-import {createStore,combineReducers} from 'redux';
+import {createStore,combineReducers,applyMiddleware} from 'redux';
 import reducers from './store/reducers/mobilenavbar';
 import {Provider} from 'react-redux';
 import './index.css';
 import App from './App';
-import * as Routes from './Constants/Routesconstants';
 import createBrowserHistory from 'history/createBrowserHistory'
-import { BrowserRouter } from 'react-router-dom'
 import * as serviceWorker from './serviceWorker';
 import MobilenavReducer from './store/reducers/mobilenavbar';
 import NavigationbarReducer from './store/reducers/navigationbar';
+import voucher from './Async_Reg_reduxthunk/Reducers/voucher';
+import logger from 'redux-logger';
+import thunkMiddleWare from 'redux-thunk';
+
 
 
 const rootReducer = combineReducers(
     {
         mobRed:MobilenavReducer,
-        navbar:NavigationbarReducer
+        navbar:NavigationbarReducer,
+        voucher
     }
 );
 export const history = createBrowserHistory();
@@ -25,18 +28,15 @@ export const history = createBrowserHistory();
 
 //create the store 
 const store = createStore(
-    rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+    rootReducer,
+    applyMiddleware(logger,thunkMiddleWare), 
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-//If true the router will use full page refreshes on page navigation.
-const supportsHistory = 'pushState' in window.history
-// this is the default behavior
-const getConfirmation = (message, callback) => {
-    const allowTransition = window.confirm(message)
-    callback(allowTransition)
-  }
+
+
 const app = (
     <Provider store={store}>
-    <Router history={history}>
+        <Router history={history}>
             <App/>
         </Router>
     </Provider>

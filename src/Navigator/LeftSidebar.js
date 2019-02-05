@@ -17,25 +17,25 @@ import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
 import TimerIcon from '@material-ui/icons/Timer';
 import SettingsIcon from '@material-ui/icons/Settings';
-import {Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {history} from '../index';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
-import { BrowserRouter as Router,Switch,Route} from 'react-router-dom';
+import * as Rotesconstants from '../Constants/Routesconstants';
 // import {history} from '../index';
 
 const categories = [
   {
-    id: '',
+    id: 'Vouchers',
     children: [
-      { id: 'Vouchers', icon: <PeopleIcon />, active: false, url:"/dashboard" },
-      { id: 'Campaigns', icon: <DnsRoundedIcon />, url:"/Database"  },
-      { id: 'Distributions', icon: <PermMediaOutlinedIcon />, url:"/Storage"  }
+      { id: 'Create Vouchers', icon: <DnsRoundedIcon />, active: false, url:Rotesconstants.VOUCHERS_REDEEMED },
+      { id: 'Statistics', icon:<PeopleIcon /> , url:Rotesconstants.LANDING  },
+      { id: 'Distributions', icon: <PermMediaOutlinedIcon />, url:Rotesconstants.HISTORY  }
     ],
   },
   {
-    id: '',
+    id: 'Configurations',
     children: [
-      { id: 'Redemptions', icon: <PublicIcon />, url:"/Hosting"  },
+      { id: 'Redemptions', icon: <PublicIcon />, url:Rotesconstants.REDEMPTION  },
       { id: 'Customers', icon: <SettingsEthernetIcon />, url:"/Functions"  },
       { id: 'Orders', icon: <SettingsInputComponentIcon />, url:"/Kit"  },
       { id: 'Analytics', icon: <SettingsIcon /> ,url:"/Analytics" },
@@ -84,13 +84,10 @@ const styles = theme => ({
       fontSize: theme.typography.fontSize,
     },
   },
-  textDense: {},
   divider: {
     marginTop: theme.spacing.unit * 2,
   },
 });
-
-
 
 class Navigator extends Component {
   constructor(props){
@@ -112,16 +109,18 @@ class Navigator extends Component {
             Voucherize
           </ListItem>
             <div style={{cursor:"pointer"}}>
-            <ListItem className={classNames(classes.item, classes.itemCategory)} >
-                <ListItemIcon>
-                  <HomeIcon/>
-                </ListItemIcon>
-                <ListItemText classes={{primary: classes.itemPrimary,}}>
-                  Main Projects
-                </ListItemText>
-              </ListItem>
+            <Link to={Rotesconstants.LANDING}>
+              <ListItem className={classNames(classes.item, classes.itemCategory)} >
+                  <ListItemIcon>
+                    <HomeIcon/>
+                  </ListItemIcon>
+                  <ListItemText classes={{primary: classes.itemPrimary,}}>
+                    Main Projects
+                  </ListItemText>
+                </ListItem>
+            </Link>
             </div>
-          {categories.map(({ id, children }) => (
+          {categories.map(({id,children }) => (
             <React.Fragment key={id}>
                  <ListItem className={classes.categoryHeader}>
                      <ListItemText
@@ -134,7 +133,7 @@ class Navigator extends Component {
                    </ListItem>
                    {children.map(({ id: childId, icon, active,url }) => (
                     <div>
-                     <ListItem
+                  <ListItem
                        data-view={url}  
                        onClick={this.handleUrlcollect}
                        button

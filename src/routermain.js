@@ -1,6 +1,6 @@
 import React from 'react';
-import Historytable from './Views/shortcode/shortcode';
-import LandingDashboard from './LandingDashboard/LandingDashboard';
+import Historytable from './Views/all_vouchers_table/Vouchers.All';
+import LandingDashboard from './LandingDashboard/chartsDashboard';
 import NoMatch from './Errors/Error';
 import Loading from './Loader/Loader'; 
 import * as RouterConfig from './Constants/Routesconstants';
@@ -8,12 +8,12 @@ import CardDrawer  from './createCampaignMainFolder/CreateCampaign/CreateCampaig
 import {Switch,Route} from 'react-router-dom';
 
 const  Router =() =>(
-    <div>
+    <div id="routerMain">
     <Switch> 
        <Route path={RouterConfig.HISTORY} exact   component={Historytable}/>
        <Route path={RouterConfig.LANDING} exact component={LandingDashboard}/>
        <Route path={RouterConfig.VIEWS} exact component={CardDrawer}/>
-       <Route exact component={NoMatch} />
+       <Route  component={NoMatch} />
    </Switch>
    </div>
 )
