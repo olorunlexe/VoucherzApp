@@ -1,0 +1,13 @@
+.background-parent-page-child-image{
+   width:100%;
+   height: 82vmin;
+}
+.background-parent-page{
+    background: url('../Image/Error_robot.svg');
+    background-repeat: no-repeat;
+    width: 50%;
+    height: 60vh;
+    margin: 40px auto;
+    background-position: center;
+    background-size: contain;
+}
