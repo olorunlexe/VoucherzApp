@@ -1,3 +1,6 @@
+##Problem Statement
+This is the client-side web application built with react and redux,having been wired up via Material UI .This application is for generating vouchers via an external Api
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
