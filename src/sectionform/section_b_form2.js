@@ -46,13 +46,18 @@ const styles = theme => ({
   extendedIcon: {
     marginRight: theme.spacing.unit,
   },
+  show_message : {
+    display:'block',
+    color:'red'
+  },
+  hide_message : {
+    display: 'none'
+  }
 });
 
 
 class InputAdornments extends React.Component {
-  state = {
-      singleDefaultvalue:1
-  }
+  
   render() {
     const { classes,voucherTypeProp } = this.props;
 
@@ -60,36 +65,34 @@ class InputAdornments extends React.Component {
       <div className={classes.root}>
         <FormControl className={classNames(classes.margin, classes.textField)}>
           <Grid  className={classes.grid}>
-              <InputLabel htmlFor="adornment-amount">{`${this.props.formType} Amount`}</InputLabel>
+              <InputLabel htmlFor="adornment-amount">
+                <small>
+                  <span htmlFor="adornment-message" 
+                    className={this.props.amount_message ? 
+                      classes.show_message : 
+                        classes.hide_message}><span>{`Required field ${this.props.formType} Amount`}</span>
+                  </span>
+                </small>
+              </InputLabel>
                 <Input
                 id="adornment-amount"
                 name="amount"
                 type="number"
                 value={this.props.amount}
                 className={classes.textField}
-                onChange={(e)=>this.props.changeHandler(e)}
-                startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                onChange={(e)=>this.props.onChangeHandler(e)}
+                startAdornment={<InputAdornment position="start"><small>{`${this.props.formType}`}(Naira)</small></InputAdornment>}
                 />
-                <TextField
-                    id="creationDate"
-                    name="creationDate"
-                    label="CreationDate"
-                    value={this.props.creationDate}
-                    type="date"
-                    className={classes.textField}
-                    onChange={(e) => this.props.changeHandler(e)}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
+
+
                   <TextField
                     id="expirydate"
                     name="expirydate"
-                    label="expirydate"
+                    label={`${this.props.ExpiryDate_message ? 'Wrong credentials?': 'expirydate' }`}
                     value={this.props.expirydate}
                     type="date"
                     className={classes.textField}
-                    onChange={(e) => this.props.changeHandler(e)}
+                    onChange={(e) => this.props.onChangeHandler(e)}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -103,9 +106,9 @@ class InputAdornments extends React.Component {
                 <TextField
                 id="standard-number"
                 name="TypeNumber"
-                label={`${this.props.formType} Number of voucher generated`}
+                label={`${this.props.TypeNumber_message ? 'Wrong credentials?': `no.of ${this.props.formType} vouch.`}`}
                 value={this.props.TypeNumber}
-                onChange={(e)=>this.props.changeHandler(e)}
+                onChange={(e)=>this.props.onChangeHandler(e)}
                 type="number"
                 className={classes.textField}
                 InputLabelProps={{
@@ -121,9 +124,9 @@ class InputAdornments extends React.Component {
                 <TextField
                 id="standard-number"
                 name="TypeNumber"
-                label={`${this.props.formType} Number of voucher generated`}
-                value= {this.state.singleDefaultvalue}
-                onChange={(e)=>this.props.changeHandler(e)}
+                label={`${this.props.TypeNumber_message ? 'Wrong credentials?': `no.of ${this.props.formType} vouch.`}`}
+                value= {this.props.TypeNumber}
+                onChange={(e)=>this.props.onChangeHandler(e)}
                 type="number"
                 className={classes.textField}
                 InputLabelProps={{
@@ -136,14 +139,27 @@ class InputAdornments extends React.Component {
           <TextField
             id="filled-multiline-flexible"
             name="multiline"
-            label={`${this.props.formType} Description`}
+            label={`${this.props.multiline_message ? 'Wrong credentials?': `${this.props.formType} Description` }`}
             multiline
             rowsMax="10"
             value={this.props.multiline}
-            onChange={(e)=>this.props.changeHandler(e)}
+            onChange={(e)=>this.props.onChangeHandler(e)}
             className={classes.textField}
             margin="normal"
             helperText="Description of voucher.."
+            
+          />
+          <TextField
+            id="filled-multiline-flexible"
+            name="MetaData"
+            label={`${this.props.MetaData_message ? 'Wrong credentials?': `${this.props.formType} MetaData` }`}
+            multiline
+            rowsMax="10"
+            value={this.props.MetaData}
+            onChange={(e)=>this.props.onChangeHandler(e)}
+            className={classes.textField}
+            margin="normal"
+            helperText="MetaData of voucher.."
             
           />
           <FormButton createVoucherfunction={this.props.createVoucherfunction}/>

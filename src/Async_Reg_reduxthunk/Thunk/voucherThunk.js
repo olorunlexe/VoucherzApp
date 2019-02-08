@@ -17,10 +17,9 @@ import {
 } from '../Action/Actions_creator';
 
 import API from '../../Constants/Configuration';
-import qs from 'qs';
 
-export const Allvouchers = () => {
-    const request = API.get(`/all?merchantId=1234567840`);
+export const Allvouchers =  () => {
+    const request =  API.get(`/all?merchantId=12345645673`);
     return (dispatch)=>{
         dispatch(getAllVouchers());
         request
@@ -57,7 +56,7 @@ export const Disablevoucher = (data) => {
 }
 
 export const Updatevoucher = (data) => {
-    const request= API.patch('updatevoucher');
+    const request= API.patch(`updatevoucher/${data}`);
     return (dispatch)=>{
         dispatch(updateVoucher());
         request
@@ -81,3 +80,4 @@ export const Viewsinglevoucher =(data)=>{
         })
     };
 }
+

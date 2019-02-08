@@ -23,6 +23,13 @@ const styles = theme => ({
   textField: {
     flexBasis: 200,
   },
+  show_message : {
+    display:'block',
+    color:'red'
+  },
+  hide_message : {
+    display: 'none'
+  }
 });
 
 const characterset = [
@@ -35,8 +42,8 @@ const characterset = [
     label: 'Alphanumeric',
   },
   {
-    value: 'Alphabets',
-    label: 'Alphabets',
+    value: 'Alphabet',
+    label: 'Alphabet',
   },
 ];
 const codespecifications = [
@@ -65,6 +72,7 @@ class InputAdornments extends React.Component {
           name="characterset"
           value={this.props.characterset}
           onChange={(e) => this.props.changeHandler(e)}
+          required
           InputProps={{
             startAdornment: <InputAdornment position="start">charset</InputAdornment>,
           }}
@@ -80,6 +88,7 @@ class InputAdornments extends React.Component {
           select
           label="code-spec"
           className={classNames(classes.margin, classes.textField)}
+          required
           InputProps={{
             startAdornment: <InputAdornment position="start">codespec.</InputAdornment>,
           }}
@@ -112,7 +121,11 @@ class InputAdornments extends React.Component {
         </FormControl>
         
         <FormControl className={classNames(classes.margin, classes.textField)}>
-          <InputLabel htmlFor="adornment-length"><small>Code Length</small></InputLabel>
+          <InputLabel htmlFor="adornment-length">
+            <small>
+                <span htmlFor="adornment-message" 
+                   className={true ? classes.show_message : classes.hide_message}>Wrong credentials?</span></small>
+          </InputLabel>
           <Input
             name="length"
             disabled={lengthVisibility}
@@ -120,27 +133,39 @@ class InputAdornments extends React.Component {
             type="number"
             value={this.props.length}
             onChange={(e)=>this.props.changeHandler(e)}
+            startAdornment={<InputAdornment position="start"><small>code.length</small></InputAdornment>}
           />
         </FormControl>
 
         <FormControl className={classNames(classes.margin, classes.textField)}>
-          <InputLabel htmlFor="adornment-prefix"><small>Code Prefix</small></InputLabel>
+          <InputLabel htmlFor="adornment-prefix">
+            <small>
+                <span htmlFor="adornment-message" 
+                   className={this.props.Prefix_message ? classes.show_message : classes.hide_message}>Required field <span>Code Prefix</span></span></small>
+          </InputLabel>
           <Input
             id="adornment-prefix"
             name="prefix"
             type="text"
             value={this.props.prefix}
             onChange={(e)=>this.props.changeHandler(e)}
+            startAdornment={<InputAdornment position="start"><small>prefix</small></InputAdornment>}
           />
         </FormControl>
         <FormControl className={classNames(classes.margin, classes.textField)}>
-          <InputLabel htmlFor="adornment-suffix"><small>Code Suffix</small></InputLabel>
+        <InputLabel htmlFor="adornment-suffix">
+            <small>
+                <span htmlFor="adornment-message" 
+                   className={this.props.Suffix_message ? classes.show_message : classes.hide_message}>Required field <span>Code suffix</span></span>
+                </small>
+          </InputLabel>
           <Input
             id="adornment-suffix"
             type='text'
             name="suffix"
             value={this.props.suffix}
             onChange={(e)=>this.props.changeHandler(e)}
+            startAdornment={<InputAdornment position="start"><small>suffix</small></InputAdornment>}
           />
         </FormControl>
       </div>

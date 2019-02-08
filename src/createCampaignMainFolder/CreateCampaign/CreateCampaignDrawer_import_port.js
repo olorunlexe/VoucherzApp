@@ -13,9 +13,8 @@ import Createcampaignvoucategory from './createvoucher_cardCategory';
 import Form from '../../sectionform/section_a_form';
 import Inputform2 from "../../sectionform/section_b_form2";
 import DiscountForm from "../../sectionform/section_c_form";
-import "./CreateCampaignDrawer.css";
 //import action creators
-import {openPanel2,openBulk,openCategory} from '../../store/actionCreator';
+import {openPanel2,openBulk,openCategory,TooglePanel0,TooglePanel1} from '../../store/actionCreator';
 import {Generatevoucher} from '../../Async_Reg_reduxthunk/Thunk/voucherThunk';
 import { creationvalidation, expirationvalidation ,ValidateCodeLength } from '../../Validation/Validation';
 import Failurechip from "../../Chip/Failurechip";
@@ -63,7 +62,7 @@ class CreateCampaignDrawer extends React.Component {
       codespec:null,
       showPassword: false,
       expirydate: null,
-      creationDate: null,
+      creationDate: new Date().toISOString().slice(0,10),
       number:null,
       percentage:null,
       discountType:null,
@@ -71,21 +70,41 @@ class CreateCampaignDrawer extends React.Component {
       DiscountUnit:0,
       pattern: null,
       length:null,
-      TypeNumber:null,
+      TypeNumber: 1,
       characterset:null,
       codespec:null,
       prefix:null,
       suffix:null,
       vouchertype:null,
-      merchantId:'12345645678',
+      merchantId:'123456784',
+      multiline:null,
       MetaData:"",
+      singleDefaultvalue:1,
       patternVisbility:true,
       lengthVisibility:true,
       codespecVisibility:false,
-      Separator:null,
+      Separator:"-",
       Ammountvisibility:true,
       Unitvisibility:true,
-      Percentagevisibility:true
+      Percentagevisibility:true,
+
+      //validation visibility message state
+      Pattern_message:false,
+      Length_message:false,
+      Prefix_message:false,
+      Suffix_message:false,
+      expirydate_message:false,
+      multiline_message:false,
+      TypeNumber_message:false,
+      amount_message:false,
+      characterset_message:false,
+      codespec_message:false,
+      DiscountPercent_message:false,
+      DiscountUnit_message:false,
+      GiftAmount_message:false,
+      DiscountAmount_message:false,
+      valueAmount:false
+
     };
     this.handleChangeFormA = this.handleChangeFormA.bind(this);
     this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -108,6 +127,47 @@ class CreateCampaignDrawer extends React.Component {
   };
 
   onChangeHandler = (event) => {
+    //section0
+      if(event.target.name === 'prefix'){
+          this.setState({Prefix_message:false})
+      }
+      if(event.target.name === 'suffix'){
+          this.setState({Suffix_message:false})
+      }
+      if(event.target.name === 'length'){
+        this.setState({Length_message:false})
+      }
+      if(event.target.name === 'TypeNumber'){
+        this.setState({TypeNumber_message:false})
+      }
+      if(event.target.name === 'multiline'){
+        this.setState({multiline_message:false})
+      }
+
+      //section1
+      if(event.target.name === 'pattern'){
+        this.setState({pattern_message:false})
+      }
+      if(event.target.name === 'characterset'){
+        this.setState({characterset_message:false})
+      }
+      if(event.target.name === 'codespec'){
+        this.setState({codespec_message:false})
+      }
+      //section2
+      if(event.target.name === 'DiscountPercent'){
+        this.setState({DiscountPercent_message:false})
+      }
+      if(event.target.name === 'DiscountUnit'){
+        this.setState({DiscountUnit_message:false})
+      }
+      if(event.target.name === 'amount'){
+        this.setState({GiftAmount_message:false,DiscountAmount_message:false,valueAmount:false})
+      }
+      if(event.target.name === 'MetaData'){
+        this.setState({MetaData_message:false})
+      }
+
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -176,22 +236,31 @@ class CreateCampaignDrawer extends React.Component {
       //   "Description":"This is the description",
       Description:this.state.multiline,
     }
-
     //   "ValueAmount":0,
     //   "DiscountAmount":0,
     //   "GiftAmount":9000,
     obj[`${formType}Amount`] = Number(this.state.amount)
+    console.log("this is the req.body ::",obj)
     //call the redux-thunk to dispatch creationofvoucher
-    this.props.createVoucher(obj);
+    if(creationvalidation(obj))
+          this.setState({CreationDate_message:true})
+    if(expirationvalidation(obj))
+          this.setState({ExpiryDate_message:true})
+    if(ValidateCodeLength(obj))
+          this.setState({Length_message:true})
+    else{
+      this.props.createVoucher(obj)
+    }
+    
   }
   
   render() {
-  const {classes,panel0, panel1, panel2, formType, openPanel2,openCategory,voucherType} = this.props;
+  const {classes,panel0, panel1, panel2, formType, openPanel2,openCategory,voucherType,} = this.props;
     return (
       <div className={classes.root}>
         <ExpansionPanel
           expanded={panel0}
-          onChange={this.handleChange("panel0")}
+          onChange={this.props.TooglePanel0}
         >
           <Createcampaignvoucategory  onClick={openCategory}/>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} />
@@ -200,7 +269,7 @@ class CreateCampaignDrawer extends React.Component {
 
         <ExpansionPanel
           expanded={panel1}
-          onChange={this.handleChange("panel1")}
+          onChange={this.props.TooglePanel1}
         >
         <Vouchertype onClick={openPanel2}/>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} />
@@ -229,7 +298,7 @@ class CreateCampaignDrawer extends React.Component {
                  <Inputform2 
                     handleDateChange={this.handleDateChange} 
                     handleChangeFormA={this.handleChangeFormA}
-                    changeHandler = {this.onChangeHandler}
+                    onChangeHandler = {this.onChangeHandler}
                     voucherTypeProp={voucherType}
                     createVoucherfunction={this.createVoucher}
                     {...this.state}/>}
@@ -237,7 +306,7 @@ class CreateCampaignDrawer extends React.Component {
                  <Inputform2 
                     handleDateChange={this.handleDateChange} 
                     handleChangeFormA={this.handleChangeFormA}
-                    changeHandler = {this.onChangeHandler}
+                    onChangeHandler = {this.onChangeHandler}
                     voucherTypeProp={voucherType}
                     createVoucherfunction={this.createVoucher}
                     {...this.state}/>}
@@ -245,7 +314,7 @@ class CreateCampaignDrawer extends React.Component {
                  <DiscountForm 
                     handleDateChange={this.handleDateChange} 
                     handleChangeFormA={this.handleChangeFormA}
-                    changeHandler = {this.onChangeHandler}
+                    onChangeHandler = {this.onChangeHandler}
                     voucherTypeProp={voucherType}
                     formType = {this.props.formType}
                     createVoucherfunction={this.createVoucher}
@@ -283,6 +352,8 @@ const mapDispatchToProps = (dispatch) => {
     openPanel2: (payload) => dispatch(openPanel2(payload)),
     openBulk: (payload) => dispatch(openBulk(payload)),
     openCategory:(payload) => dispatch(openCategory(payload)),
+    TooglePanel0: () => dispatch(TooglePanel0()),
+    TooglePanel1: () => dispatch (TooglePanel1()),
     createVoucher: (payload) => dispatch(Generatevoucher(payload)),
   }
 } 

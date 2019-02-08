@@ -17,10 +17,11 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import {connect} from 'react-redux';
 import {Allvouchers} from '../Async_Reg_reduxthunk/Thunk/voucherThunk';
 import Searchsuggestion from '../Common/Tablesuggestion/Tablesuggestion';
+import * as Routeconfig from '../Constants/Routesconstants';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Settings from '@material-ui/icons/Settings';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { CSVLink, CSVDownload } from "react-csv";
+import FloatButton from '../Common/Floatbutton/Floatbutton';
 
 const lightColor = "#2d95a2";
 const styles = theme => ({
@@ -99,12 +100,6 @@ const styles = theme => ({
   },
 });
 
-const csvData = [
-  ["firstname", "lastname", "email"],
-  ["Ahmed", "Tomi", "ah@smthing.co.com"],
-  ["Raed", "Labes", "rl@smthing.co.com"],
-  ["Yezzi", "Min l3b", "ymin@cocococo.com"]
-];
 
 class PrimarySearchAppBar extends React.Component {
   state = {
@@ -119,6 +114,7 @@ class PrimarySearchAppBar extends React.Component {
   };
 
   handleMenuClose = () => {
+    this.props.history.push(Routeconfig.MERCHANTPROFILE)
     this.setState({ anchorEl: null });
     this.handleMobileMenuClose();
   };
@@ -137,6 +133,7 @@ class PrimarySearchAppBar extends React.Component {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const { classes, onDrawerToggle } = this.props;
+    
 
     const renderMenu = (
       <Menu
@@ -212,9 +209,12 @@ class PrimarySearchAppBar extends React.Component {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <div>
-                <button className="integration-button-container">
-                  <CSVDownload data={csvData} target="_blank" />;
-                  Integration</button>
+                <FloatButton 
+                  // handleRoutetoTutorial = {this.props.handleRoutetoTutorial}
+                  />
+              </div>
+              <div>
+                <button className="integration-button-container">Export voucher</button>
               </div>
               <div>
                 <button className="integration-button-container">Logout</button>
@@ -237,7 +237,9 @@ class PrimarySearchAppBar extends React.Component {
               </IconButton>
             </div>
             <div className={classes.sectionMobile}>
-              <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
+              <IconButton aria-haspopup="true" 
+                onClick={this.handleMobileMenuOpen} 
+                color="inherit">
                 <MoreIcon />
               </IconButton>
             </div>

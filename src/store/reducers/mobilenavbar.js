@@ -1,7 +1,6 @@
 import * as actionTypes from '../action';
 
 const initialState = {
-    loading:true,
     mobileOpen:false,
     panel0Visibility:true,
     panel1Visibility:false,
@@ -11,20 +10,16 @@ const initialState = {
 }
 const mobilenavbar = (state = initialState, action)=>{
     switch(action.type){
-        case actionTypes.MOBILETOOGLE:
+        case actionTypes.TOOGLEPANEL0:
             return {
                 ...state,
-                mobileOpen:!state.mobileOpen
+                panel0Visibility:!state.panel0Visibility,
+                panel2Visibility:false
             }
-        case actionTypes.CARDTOOGLE:
+        case actionTypes.TOOGLEPANEL1:
             return {
                 ...state,
-                tooglecard:!state.tooglecard
-            }
-        case actionTypes.LOADING:
-            return {
-                ...state,
-                loading:!state.loading
+                panel1Visibility:!state.panel1Visibility
             }
         case actionTypes.OPEN_BULK:
             return {

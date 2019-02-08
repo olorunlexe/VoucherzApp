@@ -11,13 +11,18 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import WorkIcon from '@material-ui/icons/Work';
-import CheckIcon from '@material-ui/icons/Check';
+import Valid from '../../Image/Table/valid.png';
+import Invalid from '../../Image/Table/Delete.svg';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 
 const styles = {
   card: {
     minWidth: 275,
     boxShadow:'none'
+  },
+  outttercard:{
+    maxWidth: 450,
+    borderRadius: 2,
   },
   bullet: {
     display: 'inline-block',
@@ -50,10 +55,6 @@ toggleClass=()=> {
       <CardContent>
         <List>
           <ListItem>
-            <Avatar>
-            {(voucher.voucherStatus === 'ACTIVE')&& <CheckIcon/>}
-            {(voucher.voucherStatus === 'INACTIVE')&& ''}
-            </Avatar>
             <ListItemText primary="Status" secondary={voucher.voucherStatus} />
           </ListItem>
           <ListItem>
@@ -85,6 +86,9 @@ toggleClass=()=> {
                 <ListItemText primary="Merchant Id" secondary= {voucher.merchantId} />
             </ListItem>
             <ListItem>
+                <ListItemText primary="Voucher Description" secondary= {voucher.multiline} />
+            </ListItem>
+            <ListItem>
                 <ListItemText primary="Meta Data" secondary= {voucher.metadata} />
             </ListItem>
         </section>
@@ -92,7 +96,7 @@ toggleClass=()=> {
     </CardContent>
     );
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} id={classes.outttercard}>
       {
          Viewcard
       }

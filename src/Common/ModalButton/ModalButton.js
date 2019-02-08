@@ -20,18 +20,13 @@ import {Disablevoucher,Viewsinglevoucher} from '../../Async_Reg_reduxthunk/Thunk
 import Datepicker from '../Datepicker/datepicker';
 import ModalmessageLoader from '../../Common/circleLoader_buttonred/circleLoader_buttonred';
 import Circlebuttonloader from '../circleLoader_buttonred/circleLoader_buttonred';
+import UpdateButton from '../DialogueUpdate/DialogSelect';
 
 function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
 
 const styles = {
-  appBar: {
-    position: 'relative',
-    background:'#2d95a2',
-    minHeight: 54,
-    boxShadow: 'none'
-  },
   flex: {
     flex: 1,
   },
@@ -41,22 +36,32 @@ const styles = {
 };
 
 class AlertDialogSlide extends React.Component {
-  state = {
-    open: false,
-    openupdatevoucher: false,
-  };
-
+  constructor(){
+    super();
+      this.state = {
+        open: false,
+        openDialogueselect: false,
+        selectopt: '',
+        expirydate: new Date().toISOString().slice(0,10),
+        Amount:"",
+      };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClickOpenUpdate = this.handleClickOpenUpdate.bind(this);
+    this.handleClickCloseUpdate = this.handleClickCloseUpdate.bind(this);
+    this.onDateChange = this.onDateChange.bind(this);
+  }
+  
   handleClickOpenviewmore = () => {
     this.props.Viewsinglevoucher(this.props.modalprops);
     this.setState({ open: true });
   };
 
   handleClickOpenUpdate = () => {
-    this.setState({ openupdatevoucher: true });
+    this.setState({ open: true });
   };
 
   handleClickCloseUpdate = () => {
-    this.setState({ openupdatevoucher: false });
+      this.setState({ open: false });
   };
 
   disableVoucher = () => {
@@ -66,6 +71,24 @@ class AlertDialogSlide extends React.Component {
   handledialogueclose= () =>{
     this.setState({ open: false });
   }
+  //the dialogueselect
+  handleChange = (event) => {
+    console.log(`>>>>>>select dialog onchange>>>>>>>>${event.target.name}`,event.target.value)
+    this.setState({[event.target.name]: Number(event.target.value)});
+  };
+
+  handleClickOpenUpdate = () => {
+    this.setState({ openDialogueselect: true });
+  };
+
+  handleClickCloseUpdate = () => {
+    this.setState({ openDialogueselect: false });
+  };
+
+  onDateChange = (date) => {
+    console.log("date config",date)
+    this.setState({ expirydate: date });
+  };
 
   render() {
     const { classes, modalprops, voucher } = this.props;
@@ -103,48 +126,24 @@ class AlertDialogSlide extends React.Component {
               color="primary">
               Disable {this.props.updatebuttonloader ? <Circlebuttonloader/>:''}
             </Button>
-            <Button onClick={this.handleClickOpenUpdate} color="primary">
-              Update <Circlebuttonloader/>
-            </Button>
-            <Button  
-              color="secondary">
-              Delete
-            </Button>
-            <Button 
-              onClick={this.handledialogueclose} 
-              color="secondary">
-              cancel
-            </Button>
-          </DialogActions>
-        </Dialog>
-        {/* the update modal */}
-        <Dialog
-          fullScreen
-          open={this.state.openupdatevoucher}
-          onClose={this.handleClickCloseUpdate}
-          TransitionComponent={Transition}
-        >
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton color="inherit" onClick={this.handleClickCloseUpdate} aria-label="Close">
-                <CloseIcon />
-              </IconButton>
-              <Typography variant="h6" color="inherit" className={classes.flex}>
-                Voucherize
-              </Typography>
-              <Button color="inherit" onClick={this.handleClickCloseUpdate}>
-                save
+              <UpdateButton
+                {...this.state}
+                voucher={voucher}
+                handleChange = {this.handleChange}
+                handleClickOpenUpdate = {this.handleClickOpenUpdate}
+                handleClickCloseUpdate = {this.handleClickCloseUpdate}
+                onDateChange={this.onDateChange}
+              />
+              <Button  
+                color="secondary">
+                Delete
               </Button>
-            </Toolbar>
-          </AppBar>
-          <List>
-            <ListItem button>
-              <Datepicker/>
-            </ListItem>
-            <ListItem button>
-              
-            </ListItem>
-          </List>
+              <Button 
+                onClick={this.handledialogueclose} 
+                color="secondary">
+                cancel
+              </Button>
+          </DialogActions>
         </Dialog>
       </div>
     );

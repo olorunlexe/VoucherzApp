@@ -6,8 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import FormButton from '../Common/FormsButton/FormButton';
 
@@ -61,16 +60,18 @@ class TextFields extends React.Component {
     const { classes,voucherTypeProp,Ammountvisibility,Unitvisibility,Percentagevisibility,DiscountPercent,DiscountUnit} = this.props;
     return (
       <form className={classes.container} noValidate autoComplete="off">
+      <FormHelperText><small style={{color:'red'}}>Wrong credentials?</small></FormHelperText>
         <TextField
           id="outlined-select-currency"
           select
-          label="Discount Type"
+          name="discountType"
+          label={`${this.props.discountType_message ? 'Wrong credentials?': 'Discount Type' }`}
           className={classNames(classes.margin, classes.textField)}
           SelectProps={{
             MenuProps: {
               className: classes.menu,
             },
-            onChange: (e) => this.props.changeHandler(e),
+            onChange: (e) => this.props.onChangeHandler(e),
             value: this.props.discountType,
             name: "discountType" 
 
@@ -86,11 +87,11 @@ class TextFields extends React.Component {
         </TextField>
         <TextField
           id="outlined-percentage"
-          label="Percentage"
-          name="percentage"
+          label={true ? 'Wrong credentials?': 'Percentage'}
+          name="DiscountPercent"
           disabled={false}
           value={DiscountPercent}
-          onChange={(e)=>this.props.changeHandler(e)}
+          onChange={(e)=>this.props.onChangeHandler(e)}
           type="number"
           className={`${classNames(classes.margin, classes.textField)}  
             ${Percentagevisibility ? classes.remove : classes.add}`}
@@ -102,11 +103,11 @@ class TextFields extends React.Component {
         />
        <TextField
           id="outlined-unit"
-          label="Unit"
-          name="unit"
+          label={true ? 'Wrong credentials?': 'Unit' }
+          name="DiscountUnit"
           disabled={false}
           value={DiscountUnit}
-          onChange={(e)=>this.props.changeHandler(e)}
+          onChange={(e)=>this.props.onChangeHandler(e)}
           type="number"
           className={`${classNames(classes.margin, classes.textField)}  
             ${Unitvisibility ? classes.remove : classes.add}`}
@@ -119,11 +120,11 @@ class TextFields extends React.Component {
           id="outlined-adornment-amount"
           className={`${classNames(classes.margin, classes.textField)}  
           ${Ammountvisibility ? classes.remove : classes.add}`}
-          label="Amount"
+          label={true ? 'Wrong credentials?': 'Amount'}
           name="amount"
           disabled={false}
           value={this.props.amount}
-          onChange={(e)=>this.props.changeHandler(e)}
+          onChange={(e)=>this.props.onChangeHandler(e)}
           type="number"
           InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
@@ -136,9 +137,9 @@ class TextFields extends React.Component {
                 <TextField
                 id="standard-number"
                 name="TypeNumber"
-                label={`${this.props.formType} Number of voucher generated`}
+                label={true ? 'Wrong credentials?': `${this.props.formType} Number of voucher generated`}
                 value={this.props.TypeNumber}
-                onChange={(e)=>this.props.changeHandler(e)}
+                onChange={(e)=>this.props.onChangeHandler(e)}
                 type="number"
                 className={classes.textField}
                 InputLabelProps={{
@@ -148,47 +149,17 @@ class TextFields extends React.Component {
               />
               )
           }
-          {
-            voucherTypeProp === "Single" && 
-              (
-                <TextField
-                id="standard-number"
-                name="TypeNumber"
-                label={`${this.props.formType} Number of voucher generated`}
-                value= {this.state.singleDefaultvalue}
-                onChange={(e)=>this.props.changeHandler(e)}
-                type="number"
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                margin="normal"
-              />
-            )
-          }
-          <FormControl className={classNames(classes.margin, classes.textField)}>
-                <TextField
-                      id="creationDate"
-                      name="creationDate"
-                      label="CreationDate"
-                      value={this.props.creationDate}
-                      type="date"
-                      className={classes.textField}
-                      onChange={(e) => this.props.changeHandler(e)}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-            </FormControl>
+          {voucherTypeProp === "Single" && ''}
           <FormControl className={classNames(classes.margin, classes.textField)}>
                 <TextField
                     id="expirydate"
                     name="expirydate"
-                    label="expirydate"
+                    label={true ? 'Wrong credentials?': 'expirydate'}
                     value={this.props.expirydate}
                     type="date"
                     className={classes.textField}
-                    onChange={(e) => this.props.changeHandler(e)}
+                    onChange={(e) => this.props.onChangeHandler(e)}
+                    required
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -198,14 +169,28 @@ class TextFields extends React.Component {
           <TextField
             id="filled-multiline-flexible"
             name="multiline"
-            label={`${this.props.formType} Description`}
+            label={true ? 'Wrong credentials?': `${this.props.formType} Description`}
             multiline
             rowsMax="10"
             value={this.props.multiline}
-            onChange={(e)=>this.props.changeHandler(e)}
+            onChange={(e)=>this.props.onChangeHandler(e)}
+            required
             className={classes.textField}
             margin="normal"
             helperText="Description of voucher.."
+            
+          />
+           <TextField
+            id="filled-multiline-flexible"
+            name="MetaData"
+            label={true ? 'Wrong credentials?': `${this.props.formType} MetaData`}
+            multiline
+            rowsMax="10"
+            value={this.props.MetaData}
+            onChange={(e)=>this.props.onChangeHandler(e)}
+            className={classes.textField}
+            margin="normal"
+            helperText="MetaData of voucher.."
             
           />
           </FormControl>

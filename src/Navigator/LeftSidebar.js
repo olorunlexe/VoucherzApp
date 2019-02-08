@@ -36,9 +36,8 @@ const categories = [
     id: 'Configurations',
     children: [
       { id: 'Redemptions', icon: <PublicIcon />, url:Rotesconstants.REDEMPTION  },
-      { id: 'Customers', icon: <SettingsEthernetIcon />, url:"/Functions"  },
-      { id: 'Orders', icon: <SettingsInputComponentIcon />, url:"/Kit"  },
-      { id: 'Analytics', icon: <SettingsIcon /> ,url:"/Analytics" },
+      { id: 'Customers', icon: <SettingsEthernetIcon />, url:Rotesconstants.CUSTOMERS },
+      { id: 'Orders', icon: <SettingsInputComponentIcon />, url:Rotesconstants.ORDERS  },
       { id: 'Performance', icon: <TimerIcon />,url:"/Performance" },
       { id: 'Test Lab', icon: <PhonelinkSetupIcon />,url:"/Lab" },
     ],

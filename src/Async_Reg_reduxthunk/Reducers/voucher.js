@@ -6,7 +6,8 @@ import {toast} from 'react-toastify';
 const initialState = {
     vouchers:[],
     voucher: {},
-    loading: false,
+    updatedVoucher:{},
+    containercreate :[],
     responsemessage: {},
     circularbtnloader:false,
     updatebuttonloader:false,
@@ -21,6 +22,7 @@ const GETVOUCHERS = (state = initialState,action)=>{
                 })
             );
         case actionTypes.GET_VOUCHERS_SUCCESS:
+                toast.info("retrieving data from server")
             return (
                 Object.assign({}, state, {
                     vouchers: action.payload,
@@ -29,7 +31,7 @@ const GETVOUCHERS = (state = initialState,action)=>{
             );
 
             case actionTypes.GET_VOUCHERS_FAILURE:
-                toast.error(action.payload)
+                toast.warn("Problem getting to server")
             return (
                 Object.assign({}, state, {
                     errormessage: action.payload,
@@ -46,7 +48,7 @@ const GETVOUCHERS = (state = initialState,action)=>{
                 toast.success(action.payload.data.message)
             return (
                 Object.assign({}, state, {
-                    vouchers: action.payload,
+                    containercreate: action.payload,
                     circularbtnloader: false,
                 })
             );
@@ -87,7 +89,7 @@ const GETVOUCHERS = (state = initialState,action)=>{
             case actionTypes.UPDATE_VOUCHER_SUCCESS:
             return (
                 Object.assign({}, state, {
-                    vouchers: action.payload,
+                    updatedVoucher: action.payload,
                     updatebuttonloader: false,
                 })
             );

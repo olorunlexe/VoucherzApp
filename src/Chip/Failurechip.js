@@ -48,7 +48,7 @@ handleDelete=() =>{
         className={`${classes.root} 
         ${this.state.visible? classes.fadeIn: classes.fadeOut}`} >
         <Chip
-          label="Deletable Secondary Chip"
+          label="Welcome to Voucherize"
           onDelete={this.handleDelete}
           className={classes.chip}
           color={`${primary}`}

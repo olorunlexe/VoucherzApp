@@ -9,14 +9,15 @@ import {Route} from 'react-router-dom';
 import RouterMain from '../routermain';
 import Loading from '../Loader/Loader';
 import {connect} from 'react-redux';
-import {Allvouchers} from '../Async_Reg_reduxthunk/Thunk/voucherThunk';
+import {Allvouchers,serviceCall} from '../Async_Reg_reduxthunk/Thunk/voucherThunk';
 import * as Routeconstants from '../Constants/Routesconstants';
 import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import InfiniteScroll from 'react-infinite-scroller';
 import LoadingInfiniteScroll from '../Common/circleLoader_buttonred/circleLoader_buttonred';
-import {keycloak} from '../keycloak-config/keycloak';
+import {keycloak} from '../keycloak-config';
+
 
 let theme = createMuiTheme({
   typography: {
@@ -169,7 +170,7 @@ class Paperbase extends React.Component {
       search:'',
       suggestions:[],
 
-      keycloak: null, 
+      // key: null, 
       authenticated: false
     };
     this.handleOnChangeSearch = this.handleOnChangeSearch.bind(this);
@@ -177,12 +178,23 @@ class Paperbase extends React.Component {
 
   //  this is the loader component- rendered
   componentDidMount(){
-      // keycloak.init({onLoad: 'login-required'}).then(authenticated => {
-      //   this.setState({ keycloak: keycloak, authenticated: authenticated })
-      // })
-
+    keycloak.init({ onLoad: 'login-required', checkLoginIframeInterval: 1 }).success(authenticated => {
+      if (keycloak.authenticated) {
+        sessionStorage.setItem('kctoken', keycloak.token);
+        //Updating some value in store to re-render the component
+        // store.dispatch(Allvouchers());
         setTimeout(() => this.setState({ isLoading: false }), 100);
         this.props.Allvouchers();
+
+        setInterval(() => {
+          keycloak.updateToken(10).error(() => keycloak.logout());
+          sessionStorage.setItem('kctoken', keycloak.token);
+        }, 10000);
+        } else {
+          keycloak.login();
+        }
+    });
+       
   }
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -215,12 +227,9 @@ class Paperbase extends React.Component {
   }
  
   render() {
-    
     const { classes } = this.props;
      const landingDashboard = (
     <MuiThemeProvider theme={theme}>
-        {
-            // (this.state.keycloak) &&
               <div className={classes.root}>
               <CssBaseline/>
               <nav className={classes.drawer}>
@@ -266,17 +275,16 @@ class Paperbase extends React.Component {
                 </main>
               </div>
             </div>
-        }
         </MuiThemeProvider>
    );
     return (
       <div ref={(ref) => this.scrollParentRef = ref}>
         <div>
             <InfiniteScroll
-            pageStart={0}
-            loadMore={this.handleloadMore}
-            hasMore={true || false}
-            loader={<LoadingInfiniteScroll/>}
+              pageStart={0}
+              loadMore={this.handleloadMore}
+              hasMore={true || false}
+              loader={<LoadingInfiniteScroll/>}
             >
               {landingDashboard}
             </InfiniteScroll>
@@ -298,7 +306,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    Allvouchers: () => dispatch(Allvouchers()),
+    Allvouchers: () => dispatch(Allvouchers())
   }
 } 
 

@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,15 +15,17 @@ import Typography from '@material-ui/core/Typography';
 import Emptytable from '../../Image/Table/Emptytable.svg';
 import CircleLoader from '../../Common/circleLoader_buttonred/circleLoader_buttonred';
 import LinearBuffer from '../../Common/HorizontalLoader/HorizontalLoader';
+import Deleted from '../../Image/Table/Delete.svg';
+import Valid from '../../Image/Table/valid.png';
 import {Allvouchers} from '../../Async_Reg_reduxthunk/Thunk/voucherThunk';
+import moment from 'moment'
 
 const styles = theme => ({
   root: {
     width: 'auto',
     marginTop: 0,
     overflowX: 'auto',
-    background: '#dee2e3',
-    boxShadow: 'none',
+    borderRadius:3
   },
   table: {
     minWidth: 'auto',
@@ -41,7 +44,10 @@ const styles = theme => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
-    maxWidth: 50
+    maxWidth: 100
+  },
+  code:{
+    color:'#d86a09ed'
   }
 
 });
@@ -68,53 +74,58 @@ class SimpleTable extends Component {
               <TableCell align="right"></TableCell>
             </TableRow>
           </TableHead>
-        {vouchers.map((row,id) => (
+        {vouchers.map((row,id = Math.floor(Math.random() * 20)) => (
           <TableBody>
             <TableRow>
               <TableCell component="th" scope="row">
                   <Typography  variant="inherit" noWrap className={classes.shortnerText}>
-                    <b><code  key={row.id}>{row.code}</code></b>
+                    <b><code key={id} className={classes.code}>{row.code}</code></b>
                   </Typography>
               </TableCell>
               <TableCell align="right">
-              <Typography variant="inherit" noWrap  key={row.id}>
-                {row.voucherStatus}
+              <Typography variant="inherit" noWrap  key={id}>
+                {(row.voucherStatus === 'DELETED') ? 
+                    <img src={Deleted} style={{width: 20,height: 20}} 
+                      alt="Deleted_icon" />
+                       : <img src={Valid} style={{width: 20,height: 20}} />}
                 </Typography>
               </TableCell>
               <TableCell align="right">
-                <Typography variant="inherit" noWrap  key={row.id}> 
+                <Typography variant="inherit" noWrap  key={id}> 
                   {row.voucherType}
                 </Typography>
               </TableCell>
               <TableCell align="right">
-                  <Typography variant="inherit" noWrap className={classes.shortnerText}  key={row.id}>
-                    {row.expiryDate}
+                  <Typography variant="inherit" noWrap className={classes.shortnerText}  key={id}>
+                    {moment(new Date(row.expiryDate)).fromNow()}
                   </Typography>
               </TableCell>
               <TableCell align="right">
-                  <Typography variant="inherit" noWrap className={classes.shortnerText}  key={row.id}>
-                    {row.creationDate}
+                  <Typography variant="inherit" noWrap className={classes.shortnerText}  key={id}>
+                    {moment(new Date(row.creationDate)).fromNow()}
                   </Typography>
                 </TableCell>
-              <TableCell align="right"><ModalButton modalprops={row}  key={row.id}/></TableCell>
+              <TableCell align="right"><ModalButton modalprops={row}  key={id}/></TableCell>
             </TableRow>
           </TableBody>
           ))}
       </Table>
     );
     return (
-  <Grid container spacing={24}>
-      <Grid item xs={12} sm={12} md={12}>
-        <Paper className={classes.root}>
-            {this.props.loading ? (
-              <div className={classes.logo_parent}>
-                <LinearBuffer/>
-                <img src={Emptytable} className={classes.Emptyimage_view} />
-              </div>
-            ) : TableComponent}
-        </Paper>
+  <React.Fragment>
+      <Grid container spacing={24}>
+          <Grid item xs={12} sm={12} md={12}>
+            <Paper className={classes.root}>
+                {this.props.loading ? (
+                  <div className={classes.logo_parent}>
+                    <LinearBuffer/>
+                    <img src={Emptytable} className={classes.Emptyimage_view} />
+                  </div>
+                ) : TableComponent}
+            </Paper>
+          </Grid>
       </Grid>
-        </Grid>
+  </React.Fragment>
     );
   }
 }

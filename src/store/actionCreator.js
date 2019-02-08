@@ -25,3 +25,15 @@ export const openCategory = (payload) => {
         payload
     }
 }
+
+//toogle panel0 and panel1 itself
+export const TooglePanel0 = () => {
+    return {
+        type: types.TOOGLEPANEL0
+    }
+}
+export const TooglePanel1 = () => {
+    return {
+        type: types.TOOGLEPANEL1
+    }
+}

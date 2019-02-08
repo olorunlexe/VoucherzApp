@@ -19,7 +19,8 @@ function creationvalidation(data) {
         //which by default return 0
         const re = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/;
         const test = re.test(data.CodeLength);
-        if(!test || (data.CodeLength % 1 != 0)|| (data.CodeLength.length === 0)){return true;}else {return false}
+        if(!test || (data.CodeLength % 1 != 0) || (data.CodeLength === 0) || (data.CodeLength > 15) || (data.CodeLength < 4)){return true;}
+        else {return false}
   }
 
   export { creationvalidation, expirationvalidation ,ValidateCodeLength };
