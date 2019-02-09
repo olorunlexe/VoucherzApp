@@ -89,6 +89,23 @@ export const viewSingleVoucherFailure = (payload) => {
         payload
     }
 }
+export const generateCsv =()=>{
+    return {
+        type: types.GET_GENERATE_CSV
+    }
+}
+export const generateCsvSuccess = (payload) => {
+    return {
+        type: types.GET_GENERATE_CSV_SUCCESS,
+        payload
+    }
+}
+export const generateCsvFailure = (payload) => {
+    return {
+        type: types.GET_GENERATE_CSV_FAILURE,
+        payload
+    }
+}
 
 
 

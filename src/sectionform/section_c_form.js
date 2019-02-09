@@ -57,7 +57,14 @@ class TextFields extends React.Component {
     singleDefaultvalue:1
   }
   render() {
-    const { classes,voucherTypeProp,Ammountvisibility,Unitvisibility,Percentagevisibility,DiscountPercent,DiscountUnit} = this.props;
+    const { classes,
+            voucherTypeProp,
+            Ammountvisibility,
+            Unitvisibility,
+            Percentagevisibility,
+            DiscountPercent,
+            DiscountUnit
+          } = this.props;
     return (
       <form className={classes.container} noValidate autoComplete="off">
       <FormHelperText><small style={{color:'red'}}>Wrong credentials?</small></FormHelperText>

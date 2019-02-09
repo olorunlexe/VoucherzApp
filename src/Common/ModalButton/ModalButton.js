@@ -7,17 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import {connect} from 'react-redux';
 import InnerVoucherDetail from '../VoucherDetailsInnerCard/VoucherDetailsInnerCard';
 import {Disablevoucher,Viewsinglevoucher} from '../../Async_Reg_reduxthunk/Thunk/voucherThunk';
-import Datepicker from '../Datepicker/datepicker';
 import ModalmessageLoader from '../../Common/circleLoader_buttonred/circleLoader_buttonred';
 import Circlebuttonloader from '../circleLoader_buttonred/circleLoader_buttonred';
 import UpdateButton from '../DialogueUpdate/DialogSelect';
@@ -32,6 +24,10 @@ const styles = {
   },
   button:{
     borderRadius: 3
+  },
+  code:{
+    color:'#d86a09ed'
+    
   }
 };
 
@@ -44,6 +40,8 @@ class AlertDialogSlide extends React.Component {
         selectopt: '',
         expirydate: new Date().toISOString().slice(0,10),
         Amount:"",
+        expiryVisibility:false,
+        Ammountvisibility:false
       };
     this.handleChange = this.handleChange.bind(this);
     this.handleClickOpenUpdate = this.handleClickOpenUpdate.bind(this);
@@ -73,8 +71,21 @@ class AlertDialogSlide extends React.Component {
   }
   //the dialogueselect
   handleChange = (event) => {
-    console.log(`>>>>>>select dialog onchange>>>>>>>>${event.target.name}`,event.target.value)
-    this.setState({[event.target.name]: Number(event.target.value)});
+    //Expiry
+    if(event.target.value === "10"){
+      this.setState({
+        Ammountvisibility:false,
+        expiryVisibility: true,
+        [event.target.name]: Number(event.target.value)}
+      )}
+    //Amount
+    if(event.target.value === "20"){
+      this.setState({
+        expiryVisibility:false,
+        Ammountvisibility:true,
+        [event.target.name]: Number(event.target.value)
+      })
+    }
   };
 
   handleClickOpenUpdate = () => {
@@ -86,9 +97,9 @@ class AlertDialogSlide extends React.Component {
   };
 
   onDateChange = (date) => {
-    console.log("date config",date)
     this.setState({ expirydate: date });
   };
+
 
   render() {
     const { classes, modalprops, voucher } = this.props;
@@ -109,14 +120,14 @@ class AlertDialogSlide extends React.Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle id="alert-dialog-slide-title">
-            <code>Voucher with the code {modalprops.code}</code>
+            <code className={classes.code}>Voucher with the code {modalprops.code}</code>
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
                 <div>
-                    {this.props.modalmessageloader?
-                      <ModalmessageLoader/>:
-                      <InnerVoucherDetail voucher={voucher}/>}
+                  {this.props.modalmessageloader?
+                    <ModalmessageLoader/>:
+                    <InnerVoucherDetail voucher={voucher}/>}
                 </div>
             </DialogContentText>
           </DialogContent>

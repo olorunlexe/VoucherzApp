@@ -8,14 +8,13 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
+    flex: '1 1 100%',
     overflow: 'hidden',
     padding: `0 ${theme.spacing.unit * 3}px`,
   },
   paper: {
     margin: '8px auto',
     padding: 16,
-    maxWidth: '100%',
     borderRadius: 1
   },
 });
@@ -29,7 +28,7 @@ function AutoGridNoWrap(props) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Grid container wrap="nowrap" spacing={16}>
+        <Grid container wrap="wrap" spacing={16}>
           <Grid item>
             <Avatar>W</Avatar>
           </Grid>

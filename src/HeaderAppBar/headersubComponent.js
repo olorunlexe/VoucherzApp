@@ -15,7 +15,7 @@ import Badge from '@material-ui/core/Badge';
 import Menu from '@material-ui/core/Menu';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import {connect} from 'react-redux';
-import {Allvouchers} from '../Async_Reg_reduxthunk/Thunk/voucherThunk';
+import {GenerateCSV_voucher} from '../Async_Reg_reduxthunk/Thunk/voucherThunk';
 import Searchsuggestion from '../Common/Tablesuggestion/Tablesuggestion';
 import * as Routeconfig from '../Constants/Routesconstants';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -210,6 +210,7 @@ class PrimarySearchAppBar extends React.Component {
             <div className={classes.sectionDesktop}>
               <div>
                 <FloatButton 
+                  GenerateCSV_voucher = {this.props.GenerateCSV_voucher}
                   // handleRoutetoTutorial = {this.props.handleRoutetoTutorial}
                   />
               </div>
@@ -259,12 +260,14 @@ PrimarySearchAppBar.propTypes = {
 const mapStateToProps = (state) => {
   return {
     vouchers:state.voucher.vouchers,
+    csvloader:state.voucher.csvloader,
+    csvoucher:state.voucher.csvoucher
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    Allvouchers: () => dispatch(Allvouchers()),
+    GenerateCSV_voucher: () => dispatch(GenerateCSV_voucher())
   }
 } 
 

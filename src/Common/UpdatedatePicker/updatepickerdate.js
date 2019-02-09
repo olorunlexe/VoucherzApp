@@ -24,12 +24,12 @@ function DatePickers(props) {
         id="expirydate"
         name="expirydate"
         label="expirydate"
-        value={this.props.expirydate}
+        value={props.expirydate}
         type="date"
         className={classes.textField}
-        onChange={(e) => this.props.onDateChange(e)}
+        onChange={(e) => props.onDateChange(e)}
         InputLabelProps={{
-        shrink: true,
+            shrink: true,
         }}
         />
     </form>

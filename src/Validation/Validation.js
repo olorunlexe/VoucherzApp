@@ -23,4 +23,33 @@ function creationvalidation(data) {
         else {return false}
   }
 
-  export { creationvalidation, expirationvalidation ,ValidateCodeLength };
+  //object to csv
+  function objectToCsv(data){
+      const csvRows = [];
+      //get the headers for csv
+      const headersTitle = Object.keys(data[0]);
+      csvRows.push(headersTitle.join(','));
+      //Loop over the rows
+      for (const row of data){
+          const values = headersTitle.map(header =>{
+              const escaped = ('' + row[header]).replace(/"/g, '\\"');
+              return `"${escaped}"`;
+          })
+          csvRows.push(values.join(','))
+      }
+      return csvRows.join('\n')
+  }
+
+  function download(data){
+      const blob = new Blob([data],{type: 'text/csv'});
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('hidden','');
+      a.setAttribute('href', url);
+      a.setAttribute('download', 'VoucherizeInterswitch.csv');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+  }
+
+  export { creationvalidation, expirationvalidation ,ValidateCodeLength,objectToCsv,download };

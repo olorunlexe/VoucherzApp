@@ -1,7 +1,7 @@
 import Keycloak from 'keycloak-js';
 
 export let keycloak = Keycloak({
-  "realm": "Voucherize",
+  "realm": "Voucherz",
   "url": "http://localhost:8080/auth",
   "ssl-required": "external",
   "resource": "zing",

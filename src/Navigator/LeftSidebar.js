@@ -38,7 +38,7 @@ const categories = [
       { id: 'Redemptions', icon: <PublicIcon />, url:Rotesconstants.REDEMPTION  },
       { id: 'Customers', icon: <SettingsEthernetIcon />, url:Rotesconstants.CUSTOMERS },
       { id: 'Orders', icon: <SettingsInputComponentIcon />, url:Rotesconstants.ORDERS  },
-      { id: 'Performance', icon: <TimerIcon />,url:"/Performance" },
+      { id: 'Tutorial', icon: <TimerIcon />,url:Rotesconstants.TUTORIALEXAMPLE  },
       { id: 'Test Lab', icon: <PhonelinkSetupIcon />,url:"/Lab" },
     ],
   },

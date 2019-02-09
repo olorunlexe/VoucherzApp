@@ -12,7 +12,6 @@ const styles = theme => ({
   paper: {
     margin: '8px auto',
     padding: 16,
-    maxWidth: '100%',
     borderRadius: 1
   },
 });
@@ -24,25 +23,24 @@ function ProfileGrid(props) {
     <div className={classes.root}>
       <Grid container spacing={16}>
         <Grid item xs={12}>
-          <Paper className={classes.paper}><Gridetails/></Paper>
+          <Gridetails/>
         </Grid>
         <Grid item xs={6}>
-          <Paper className={classes.paper}><Gridetails/></Paper>
+          <Gridetails/>
         </Grid>
         <Grid item xs={6}>
-          <Paper className={classes.paper}><Gridetails/></Paper>
+          <Gridetails/>
         </Grid>
         <Grid item xs={3}>
-          <Paper className={classes.paper}><Gridetails/></Paper>
+          <Gridetails/>
         </Grid>
         <Grid item xs={3}>
-          <Paper className={classes.paper}><Gridetails/></Paper>
+          <Gridetails/>
         </Grid>
         <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
         </Grid>
         <Grid item xs={3}>
-          <Paper className={classes.paper}>xs=3</Paper>
+          
         </Grid>
       </Grid>
     </div>

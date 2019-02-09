@@ -27,7 +27,7 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-  },
+  }
 });
 
 class DialogSelect extends React.Component {
@@ -46,11 +46,13 @@ class DialogSelect extends React.Component {
           <DialogTitle>Update form {this.props.voucher.voucherType}</DialogTitle>
           <DialogContent>
             <form className={classes.container}>
-              {
-                (this.props.voucher.voucherType === 'Gift') && 
+            {
+              (this.props.voucher.voucherType === 'Gift') && 
                 <section>
-                    <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="age-simple">expirydate</InputLabel>
+                    <FormControl 
+                      className={classes.formControl}
+                      >
+                    <InputLabel htmlFor="age-simple">Select</InputLabel>
                       <Select
                         native
                         name="selectopt"
@@ -58,47 +60,40 @@ class DialogSelect extends React.Component {
                         onChange={(e)=>this.props.handleChange(e)}
                         input={<Input id="age-native-simple" />}
                       >
-                        <option value="" />
+                        <option value=""></option>
                         <option value={10}>Expiry date</option>
                         <option value={20}>Amount</option>
                       </Select>
                     </FormControl>
-                    <FormControl className={classes.formControl}>
-                      <TextField
-                        error={false}
-                        id="outlined-error"
-                        label="Amount"
-                        name="Amount"
-                        defaultValue="Amount"
-                        onChange={(e)=>this.props.handleChange(e)}
-                        className={classes.textField}
-                        margin="normal"
-                        variant="outlined"
-                      />
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
-                        <UpdatedatePicker 
-                          onDateChange = {this.props.onDateChange}
+                   { 
+                     (this.props.Ammountvisibility) && 
+                        <FormControl className={classes.formControl}>
+                          <TextField
+                            error={false}
+                            id="outlined-error"
+                            label="Amount"
+                            name="Amount"
+                            defaultValue="Amount"
+                            onChange={(e)=>this.props.handleChange(e)}
+                            className={classes.textField}
+                            margin="normal"
                           />
-                    </FormControl>
+                        </FormControl>
+                    }
+                    {
+                      (this.props.expiryVisibility) &&
+                        <FormControl className={classes.formControl}>
+                          <UpdatedatePicker 
+                            onDateChange = {this.props.onDateChange}/>
+                        </FormControl>
+                    }
                   </section>
             }
-              {
+        {
         (this.props.voucher.voucherType === 'Value' || this.props.voucher.voucherType === 'Discount') && 
               <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-simple">expirydate</InputLabel>
-                <Select
-                  value={this.props.age}
-                  onChange={(e)=>this.props.handleChange(e)}
-                  input={<Input id="age-simple" />}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
+                <UpdatedatePicker 
+                  onDateChange = {this.props.onDateChange}/>
               </FormControl>
             }
             </form>

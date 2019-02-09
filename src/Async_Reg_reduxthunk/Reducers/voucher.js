@@ -12,6 +12,8 @@ const initialState = {
     circularbtnloader:false,
     updatebuttonloader:false,
     modalmessageloader:false,
+    csvloader:false,
+    csvoucher:[]
 }
 const GETVOUCHERS = (state = initialState,action)=>{
     switch(action.type){
@@ -67,6 +69,7 @@ const GETVOUCHERS = (state = initialState,action)=>{
                 })
             );
             case actionTypes.DISABLE_VOUCHER_SUCCESS:
+                if(action.payload.data) toast.success(`${action.payload.data}`);  
             return (
                 Object.assign({}, state, {
                     voucher: action.payload,
@@ -74,6 +77,7 @@ const GETVOUCHERS = (state = initialState,action)=>{
                 })
             );
             case actionTypes.DISABLE_VOUCHERS_FAILURE:
+                toast.error(`could not disable voucher`); 
             return (
                 Object.assign({}, state, {
                     errormessage: action.payload,
@@ -108,29 +112,48 @@ const GETVOUCHERS = (state = initialState,action)=>{
                 })
             );
             case actionTypes.GET_SINGLE_VOUCHER_SUCCESS:
-                var string = action.payload.code;
-                var length = 7;
-                var trimmedString = string.substring(0, length);
-                if(action.payload) toast.success("successful");
-                    
-                
-            return (
-                Object.assign({}, state, {
-                    voucher: action.payload,
-                    modalmessageloader: false,
-                })
-            );
+                if(action.payload.data) toast.success("successful");  
+                return (
+                    Object.assign({}, state, {
+                        voucher: action.payload,
+                        modalmessageloader: false,
+                    })
+                );
             case actionTypes.GET_SINGLE_VOUCHER_FAILURE:
                 if(action.payload === undefined){
                     toast.warn("data not present for view i.e due to previous disable action");
                 }
-            return (
-                Object.assign({}, state, {
-                    errormessage: action.payload,
-                    modalmessageloader: true,
-                })
-            )
-        default:
+                return (
+                    Object.assign({}, state, {
+                        errormessage: action.payload,
+                        modalmessageloader: true,
+                    })
+                )
+            case actionTypes.GET_GENERATE_CSV:
+                return (
+                    Object.assign({}, state, {
+                        csvloader: false,
+                    })
+                );
+            case actionTypes.GET_GENERATE_CSV_SUCCESS:
+                if(action.payload) toast.success("csv generated successfully");  
+                    return (
+                        Object.assign({}, state, {
+                            csvoucher: action.payload,
+                            csvloader: false,
+                        })
+                    );
+            case actionTypes.GET_GENERATE_CSV_FAILURE:
+                if(action.payload === undefined){
+                    toast.warn("csv generation malfunctioned. pls check connection");
+                }
+                return (
+                    Object.assign({}, state, {
+                        errormessage: action.payload,
+                        csvloader: true,
+                    })
+                )
+            default:
             return state;
     }
 };

@@ -260,9 +260,9 @@ class Paperbase extends React.Component {
               <Route path={Routeconstants.LANDING} render={
                     props => (
                       <Header  
-                        onDrawerToggle={this.handleDrawerToggle} 
                         {...props}
                         {...this.state}
+                        onDrawerToggle={this.handleDrawerToggle} 
                         handleOnChangeSearch={this.handleOnChangeSearch}
                         vouchers={this.props.vouchers}
                         />

@@ -13,13 +13,17 @@ import {
     updateVoucherFailure,
     viewSingleVoucher,
     viewSingleVoucherSuccess,
-    viewSingleVoucherFailure
+    viewSingleVoucherFailure,
+    generateCsv,
+    generateCsvSuccess,
+    generateCsvFailure
 } from '../Action/Actions_creator';
+import { objectToCsv,download } from '../../Validation/Validation';
 
 import API from '../../Constants/Configuration';
 
 export const Allvouchers =  () => {
-    const request =  API.get(`/all?merchantId=12345645673`);
+    const request =  API.get(`/all?merchantId=123456784`);
     return (dispatch)=>{
         dispatch(getAllVouchers());
         request
@@ -77,6 +81,20 @@ export const Viewsinglevoucher =(data)=>{
             dispatch(viewSingleVoucherSuccess(vouchers.data));
         }).catch((error) => {
             dispatch(viewSingleVoucherFailure(error.response));
+        })
+    };
+}
+export const GenerateCSV_voucher =(data)=>{
+    const request= API.get(`/all?merchantId=12345645673`);
+    return (dispatch)=>{
+        dispatch(generateCsv());
+        request
+        .then(vouchers =>{
+            const csvData = objectToCsv(vouchers.data)
+            download(csvData);
+            dispatch(generateCsvSuccess(vouchers.data));
+        }).catch((error) => {
+            dispatch(generateCsvFailure(error.response));
         })
     };
 }
