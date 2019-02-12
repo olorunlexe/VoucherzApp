@@ -45,7 +45,7 @@ class Piechart extends Component{
                     options={{
                     title:{
                         display:this.props.displayTitle,
-                        text:'Vouchers Distributed',
+                        text:'Vouchers Generated',
                         fontSize:15,
                         fontWeight:'bold'
                     },

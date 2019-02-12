@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import WorkIcon from '@material-ui/icons/Work';
 import Valid from '../../Image/Table/valid.png';
-import Invalid from '../../Image/Table/Delete.svg';
+import moment from 'moment';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 
 const styles = {
@@ -61,17 +61,17 @@ toggleClass=()=> {
             <Avatar>
               <WorkIcon />
             </Avatar>
-            <ListItemText primary={`${voucher.voucherType} Amount`} secondary={voucher.giftAmount} />
+            <ListItemText primary={`${voucher.voucherType} Amount`} secondary={voucher.valueAmount} />
           </ListItem>
           <ListItem>
             <Avatar>
               <BeachAccessIcon />
             </Avatar>
-            <ListItemText primary={`${voucher.voucherType} Creation Date`} secondary= {voucher.creationDate} />
+            <ListItemText primary={`${voucher.voucherType} Creation Date`} secondary= {`${moment.utc(voucher.creationDate).local().toLocaleString()}`} />
           </ListItem>
         <section className={this.state.active ? classes.visibility: null} >
           <ListItem>
-              <ListItemText primary="Expiry Date" secondary= {voucher.expiryDate} />
+              <ListItemText primary="Expiry Date" secondary= {`${moment.utc(voucher.expiryDate).local().toLocaleString()}`} />
           </ListItem>
             <ListItem>
                 <ListItemText primary="Unit" secondary=  {voucher.discountUnit} />

@@ -67,7 +67,6 @@ class TextFields extends React.Component {
           } = this.props;
     return (
       <form className={classes.container} noValidate autoComplete="off">
-      <FormHelperText><small style={{color:'red'}}>Wrong credentials?</small></FormHelperText>
         <TextField
           id="outlined-select-currency"
           select

@@ -9,7 +9,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import {connect} from 'react-redux';
 import InnerVoucherDetail from '../VoucherDetailsInnerCard/VoucherDetailsInnerCard';
-import {Disablevoucher,Viewsinglevoucher} from '../../Async_Reg_reduxthunk/Thunk/voucherThunk';
+import {Disablevoucher,
+        Viewsinglevoucher,
+        UpdatevoucherByamount,
+        UpdatevoucherByexpirydate
+} from '../../Async_Reg_reduxthunk/Thunk/voucherThunk';
 import ModalmessageLoader from '../../Common/circleLoader_buttonred/circleLoader_buttonred';
 import Circlebuttonloader from '../circleLoader_buttonred/circleLoader_buttonred';
 import UpdateButton from '../DialogueUpdate/DialogSelect';
@@ -27,7 +31,7 @@ const styles = {
   },
   code:{
     color:'#d86a09ed'
-    
+
   }
 };
 
@@ -46,6 +50,8 @@ class AlertDialogSlide extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClickOpenUpdate = this.handleClickOpenUpdate.bind(this);
     this.handleClickCloseUpdate = this.handleClickCloseUpdate.bind(this);
+    this.handlesubmitUpdateExpiry = this.handlesubmitUpdateExpiry.bind(this);
+    this.handlesubmitUpdateAmount = this.handlesubmitUpdateAmount.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
   }
   
@@ -71,14 +77,14 @@ class AlertDialogSlide extends React.Component {
   }
   //the dialogueselect
   handleChange = (event) => {
-    //Expiry
+    //Expiry-10
     if(event.target.value === "10"){
       this.setState({
         Ammountvisibility:false,
         expiryVisibility: true,
         [event.target.name]: Number(event.target.value)}
       )}
-    //Amount
+    //Amount-20
     if(event.target.value === "20"){
       this.setState({
         expiryVisibility:false,
@@ -87,6 +93,9 @@ class AlertDialogSlide extends React.Component {
       })
     }
   };
+  onchangeAmount = (event) =>{
+    this.setState({[event.target.name]: Number(event.target.value)})
+  }
 
   handleClickOpenUpdate = () => {
     this.setState({ openDialogueselect: true });
@@ -96,8 +105,23 @@ class AlertDialogSlide extends React.Component {
     this.setState({ openDialogueselect: false });
   };
 
-  onDateChange = (date) => {
-    this.setState({ expirydate: date });
+  handlesubmitUpdateExpiry = () =>{
+    let  updatedobj = {
+      code : this.props.voucher.code,
+      expiryDate: this.state.expirydate
+    }
+    this.props.UpdatevoucherByexpirydate(updatedobj);
+  }
+  handlesubmitUpdateAmount = () =>{
+    let  updatedobj = {
+      code : this.props.voucher.code,
+      amount: this.state.Amount
+    }
+    this.props.UpdatevoucherByamount(updatedobj)
+  }
+
+  onDateChange = (event) => {
+    this.setState({ expirydate: event.target.value });
   };
 
 
@@ -120,7 +144,7 @@ class AlertDialogSlide extends React.Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle id="alert-dialog-slide-title">
-            <code className={classes.code}>Voucher with the code {modalprops.code}</code>
+            <code className={classes.code}>{modalprops.code}</code>
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
@@ -141,12 +165,17 @@ class AlertDialogSlide extends React.Component {
                 {...this.state}
                 voucher={voucher}
                 handleChange = {this.handleChange}
+                onchangeAmount = {this.onchangeAmount}
                 handleClickOpenUpdate = {this.handleClickOpenUpdate}
                 handleClickCloseUpdate = {this.handleClickCloseUpdate}
+                handlesubmitUpdateExpiry = {this.handlesubmitUpdateExpiry}
+                handlesubmitUpdateAmount = {this.handlesubmitUpdateAmount}
                 onDateChange={this.onDateChange}
               />
               <Button  
-                color="secondary">
+                color="secondary"
+                onClick={this.handledialogueclose}
+                >
                 Delete
               </Button>
               <Button 
@@ -174,7 +203,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     Disablevoucher: (payload) =>dispatch(Disablevoucher(payload)),
-    Viewsinglevoucher:(payload)=>dispatch(Viewsinglevoucher(payload))
+    Viewsinglevoucher:(payload)=>dispatch(Viewsinglevoucher(payload)),
+    UpdatevoucherByamount :(payload) => dispatch(UpdatevoucherByamount(payload)),
+    UpdatevoucherByexpirydate :(payload) => dispatch(UpdatevoucherByexpirydate(payload))
   }
 } 
 

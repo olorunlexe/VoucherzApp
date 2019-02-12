@@ -45,7 +45,7 @@ class DialogSelect extends React.Component {
         >
           <DialogTitle>Update form {this.props.voucher.voucherType}</DialogTitle>
           <DialogContent>
-            <form className={classes.container}>
+            <section className={classes.container}>
             {
               (this.props.voucher.voucherType === 'Gift') && 
                 <section>
@@ -74,7 +74,7 @@ class DialogSelect extends React.Component {
                             label="Amount"
                             name="Amount"
                             defaultValue="Amount"
-                            onChange={(e)=>this.props.handleChange(e)}
+                            onChange={(e)=>this.props.onchangeAmount(e)}
                             className={classes.textField}
                             margin="normal"
                           />
@@ -84,7 +84,8 @@ class DialogSelect extends React.Component {
                       (this.props.expiryVisibility) &&
                         <FormControl className={classes.formControl}>
                           <UpdatedatePicker 
-                            onDateChange = {this.props.onDateChange}/>
+                            onDateChange = {this.props.onDateChange}
+                            />
                         </FormControl>
                     }
                   </section>
@@ -94,18 +95,53 @@ class DialogSelect extends React.Component {
               <FormControl className={classes.formControl}>
                 <UpdatedatePicker 
                   onDateChange = {this.props.onDateChange}/>
+                  <DialogActions>
+                      <section>
+                      <Button onClick={this.props.handleClickCloseUpdate} color="primary">
+                        Cancel
+                      </Button>
+                      <Button 
+                        onClick={this.props.handlesubmitUpdateExpiry}
+                        color="primary">
+                          {`${this.props.voucher.voucherType} Ok`}
+                      </Button>
+                    </section>
+                </DialogActions>
               </FormControl>
-            }
-            </form>
+        }
+            </section>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={this.props.handleClickCloseUpdate} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.props.handleClickCloseUpdate} color="primary">
-              Ok
-            </Button>
+
+      {
+        <DialogActions>
+            {
+              (this.props.expiryVisibility) && 
+                <section>
+                  <Button onClick={this.props.handleClickCloseUpdate} color="primary">
+                    Cancel
+                  </Button>
+                  <Button 
+                    onClick={this.props.handlesubmitUpdateExpiry} 
+                    color="primary">
+                    {`expiryOk`}
+                  </Button>
+                </section>
+            }
+            {
+            (this.props.Ammountvisibility) && 
+                <section>
+                  <Button onClick={this.props.handleClickCloseUpdate} color="primary">
+                    Cancel
+                  </Button>
+                  <Button 
+                    onClick={this.props.handlesubmitUpdateAmount} 
+                    color="primary">
+                    {`AmountOk`}
+                  </Button>
+                </section>
+            }
           </DialogActions>
+          }
         </Dialog>
       </div>
     );

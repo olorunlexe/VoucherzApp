@@ -5,6 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import Cloud from '@material-ui/icons/Cloud';
 import Fab from '@material-ui/core/Fab';
+import Logocsv from '../../Image/Table/csv.svg';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -25,7 +26,7 @@ function SimpleTooltips(props) {
         aria-label="Add" 
         className={classes.fab}
         onClick={props.GenerateCSV_voucher}>
-            <Cloud />
+             <img src={Logocsv} alt="Logocsv" style={{width:30,height: 30}}/>
         </Fab>
       </Tooltip>
     </div>

@@ -1,5 +1,6 @@
 import axios from 'axios';
+import {keycloak} from '../keycloak-config';
 
 export default axios.create({
-  baseURL: `http://localhost:5000/api/v1`
+  baseURL: `http://localhost:63745/api/v1`
 });

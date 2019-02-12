@@ -18,7 +18,7 @@ import LinearBuffer from '../../Common/HorizontalLoader/HorizontalLoader';
 import Deleted from '../../Image/Table/Delete.svg';
 import Valid from '../../Image/Table/valid.png';
 import {Allvouchers} from '../../Async_Reg_reduxthunk/Thunk/voucherThunk';
-import moment from 'moment'
+import moment from 'moment';
 
 const styles = theme => ({
   root: {
@@ -97,12 +97,12 @@ class SimpleTable extends Component {
               </TableCell>
               <TableCell align="right">
                   <Typography variant="inherit" noWrap className={classes.shortnerText}  key={id}>
-                    {moment(new Date(row.expiryDate)).fromNow()}
+                    {moment.utc(row.expiryDate).local().toLocaleString()}
                   </Typography>
               </TableCell>
               <TableCell align="right">
                   <Typography variant="inherit" noWrap className={classes.shortnerText}  key={id}>
-                    {moment(new Date(row.creationDate)).fromNow()}
+                  {moment.utc(row.creationDate).local().toLocaleString()}
                   </Typography>
                 </TableCell>
               <TableCell align="right"><ModalButton modalprops={row}  key={id}/></TableCell>

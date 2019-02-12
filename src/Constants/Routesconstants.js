@@ -15,3 +15,4 @@ export const PERFORMANCE = '/dashboard/performance';
 export const ORDERS = '/dashboard/orders';
 export const MERCHANTPROFILE = '/dashboard/merchantprofile';
 export const TUTORIALEXAMPLE = '/dashboard/tutorialexample';
+export const KEYCLOACK_ENDUSERSESSION = "http://auth-server/auth/realms/Voucherz/protocol/openid-connect/logout?redirect_uri=localhost:3000/";

@@ -69,7 +69,6 @@ html, body {margin:0; padding:0;}
   white-space:nowrap;
   color:transparent;
   overflow:hidden;
-  background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALgAAAAiCAMAAADbEOPQAAAAWlBMVEUAAAABr/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4Br/4y9ToAAAAAHXRSTlMAQL9/7xAfn8/fYI8vcK9QJVnIpzb3tGlJCdeGenCNtI0AAAN9SURBVFjD7ZjpUuMwDIAd33au0hZ6LHr/19xIPlQ3lJYZZofOoj/YUiV/VmQ5QWy28LlsN+JHiod74sWPFLgv4kfKL/gd+QX/EFyOe3Myw+HtucAnbnx29xC46YYvLtd13w7+Ghv9rB8A70B+ebnvBn/FVJzidNbn3Qsa9vo5wBH2GPLkvMfZU4DvluELcN0cl7l7BvDlXA6vwKKtEDYrPmYeWnB769S1NoC1lhWmPfmmtQ9Zby/A35ZR6YH8CHa3wIcJ96ZMBVdYZJ5INNj8qxHclY3BTa9RG8uTU2L2ABBKh8jTMXtJcqBo6CdjAT8s+6XBn5dyJk2pnTV41BB6JcHPCdx4CEo5gIiREZckwNDaGHygCJMGbzJ4TCGLswPdq4XVZXDjE0i/REO/PoMPCw0NOmG39bRuVuBl1ZGWCzqBT+CyvsMEaFMOQGtjcJsjWA8y/dTnkBpUeljepIyoBD6BsugAgTKljKjp/ZPB8wg9TmvwxDnWHchCyKiOkkt/WxuDO+JBggCRjDUkYKUZTZuvA9AQc5S+UFS2voILiaOeja2YnFL0YdJcHIbSJ2pyWhuBNxFi3nqgGTmMqHV1OqNXmVvQ3TX4ewKvW3jHBUjWPbAdSohdEk/+Hgaq9XFtI3COUBWcyIhDBX32Ss8GYKgbgaBsAz5n8I2vNb5/DDwASydKvoI2rY3BI6hrcNWEdMCi2iYafepRDH7SVCBR5ytoWXZ8NONzV4RKAAtzJvrW9kjG55RxVb0wvc3no40SIDI4nkkWWnZ7q8bFVY3P7S/UEncCK9jWclqu8flGjfeNF2+0eIULcBOubs79jStflhZguaskMVkP3pJubQNIEVSJVboKh+Suwl5yhXDZODaBufec8BV4l2+TwQeQKYxLBj2WtE2U6bUN4PImMA58ihhSSOtTrhV4k+bOXILP0paOdclmy6F4s+R8AxzvKq/U1N6cqNBD7cb07Ne2HC1qjNAHvjkdKhzAxDfnMs/9GyQ3Fbn4aZgZfE/oo3vbvdMSh08+JLrU6eu7ilF0pCd7VU1rW83RBOl1p76rRHzeoZQQTvkV56IdkF+YBYPL5jyc+s8/3ez1Nxh1DZb7NtPxd19qhwMqWAbqKGvJfgwO5xfB+/1HH8sM/iVpwQG0Oxy742GnAZ4LvMov+MPy/4D7Cv5k/2bebAv4c/1j/y/QxJrPygnbMwAAAABJRU5ErkJggg==") no-repeat center left;
   background-size:contain;
 }
 #landing > .header > .button {font-size:.75em; border-width:.18em;margin:0 5px;}
@@ -129,13 +128,13 @@ html, body {margin:0; padding:0;}
 }
 #landing > .feature {
   display:inline-block;
-  width:23.75em;
+  width:20.75em;
   margin-top:5.125em;
   padding:0 1.625em;
   text-align:center;
   vertical-align:top;
 }
-#landing > .feature > .picture {width:11.9375em; max-width:191px; margin-bottom:2.25em;}
+#landing > .feature > .picture {height:138px; max-width:191px; margin-bottom:2.25em;}
 #landing > .feature > .caption {
   font-size:1.4em;
   font-weight:normal;
@@ -162,7 +161,7 @@ html, body {margin:0; padding:0;}
 #landing > .footer > .subscribe {width:50%; top:-.5em;}
 #landing > .footer > .subscribe > .caption {font-size:1.125em; font-weight:normal; color:#3e4e5c;}
 #landing > .footer > .subscribe > .summary {font-size:.875em; color:#8e9ea9; margin-bottom:.5em;}
-#landing > .footer > .subscribe > .email {
+#landing > .footer > .subscribe > .redeem {
   width:56%;
   font-size:.875em;
   border:.125em solid #e4ebec;
@@ -171,7 +170,7 @@ html, body {margin:0; padding:0;}
   line-height:3em;
   padding:0 1em;
 }
-#landing > .footer > .subscribe > .email + button {
+#landing > .footer > .subscribe > .redeem + button {
   width:17%;
   font-size:.875em;
   border:0;
@@ -237,7 +236,7 @@ html, body {margin:0; padding:0;}
 
 #landing .slider-2 img.ratio {padding:0 30.4%;}
       #landing .slider-2 {margin-top:6em;}
-      #landing .slider-2 .content h3 {font-size:1.125em; margin:0 0 3em; color:#99ce45; text-transform:uppercase; font-weight:normal;}
+      #landing .slider-2 .content h3 {font-size:1.125em; margin:0 0 3em; color:#37bdaf; text-transform:uppercase; font-weight:normal;}
       #landing .slider-2 .content p {font-size:1.3em; color:#fff;}
       #landing .slider-2 .content small {font-size:1.125em; margin:3em 0 0; display:block; color:#fff; text-transform:uppercase; font-weight:normal;}
 
@@ -252,3 +251,5 @@ html, body {margin:0; padding:0;}
       #landing .slider-1 .content h3 {color:#fff; font-size:2.125em; font-weight:normal; margin:0 0 4%;}
       #landing .slider-1 .content p {color:#fff; font-size:1.1em; font-weight:normal;}
       #landing .slider-1 .button {position:absolute; bottom:17%; min-width:12.5em; font-size:.95em; font-weight:normal; border-width:.14em;}
+
+      

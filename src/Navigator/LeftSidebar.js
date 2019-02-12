@@ -16,8 +16,8 @@ import PublicIcon from '@material-ui/icons/Public';
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
 import TimerIcon from '@material-ui/icons/Timer';
-import SettingsIcon from '@material-ui/icons/Settings';
-import {Link} from 'react-router-dom';
+import VoucherLogo from '../Image/Table/logo.png';
+import { Link } from 'react-router-dom';
 import {history} from '../index';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 import * as Rotesconstants from '../Constants/Routesconstants';
@@ -35,11 +35,8 @@ const categories = [
   {
     id: 'Configurations',
     children: [
-      { id: 'Redemptions', icon: <PublicIcon />, url:Rotesconstants.REDEMPTION  },
-      { id: 'Customers', icon: <SettingsEthernetIcon />, url:Rotesconstants.CUSTOMERS },
-      { id: 'Orders', icon: <SettingsInputComponentIcon />, url:Rotesconstants.ORDERS  },
+      { id: 'Vouchers Information', icon: <PublicIcon />, url:Rotesconstants.REDEMPTION  },
       { id: 'Tutorial', icon: <TimerIcon />,url:Rotesconstants.TUTORIALEXAMPLE  },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon />,url:"/Lab" },
     ],
   },
 ];
@@ -86,6 +83,9 @@ const styles = theme => ({
   divider: {
     marginTop: theme.spacing.unit * 2,
   },
+  logo:{
+    width: '60%'
+  }
 });
 
 class Navigator extends Component {
@@ -104,9 +104,11 @@ class Navigator extends Component {
     return (
       <Drawer variant="permanent" {...other}>
         <List disablePadding>
+         <Link to="/">
           <ListItem className={classNames(classes.firebase, classes.item, classes.itemCategory)}>
-            Voucherize
+           <img src={VoucherLogo} className={classes.logo} alt="VoucherLogo"/>
           </ListItem>
+        </Link>
             <div style={{cursor:"pointer"}}>
             <Link to={Rotesconstants.LANDING}>
               <ListItem className={classNames(classes.item, classes.itemCategory)} >

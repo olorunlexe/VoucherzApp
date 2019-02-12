@@ -12,7 +12,11 @@ const initialState = {
     circularbtnloader:false,
     updatebuttonloader:false,
     modalmessageloader:false,
+    updatedialogeloader:false,
     csvloader:false,
+    discounterrormessage:"",
+    discountvouchers:[],
+    discountloading:false,
     csvoucher:[]
 }
 const GETVOUCHERS = (state = initialState,action)=>{
@@ -21,6 +25,7 @@ const GETVOUCHERS = (state = initialState,action)=>{
             return (
                 Object.assign({}, state, {
                     loading: true,
+
                 })
             );
         case actionTypes.GET_VOUCHERS_SUCCESS:
@@ -33,13 +38,39 @@ const GETVOUCHERS = (state = initialState,action)=>{
             );
 
             case actionTypes.GET_VOUCHERS_FAILURE:
-                toast.warn("Problem getting to server")
+            toast.error("failed to connect to resource")
             return (
                 Object.assign({}, state, {
                     errormessage: action.payload,
                     loading: true,
                 })
             );
+
+            //----
+            case actionTypes.GET_DISCOUNT_VOUCHERS:
+            return (
+                Object.assign({}, state, {
+                    discountloading: true,
+                })
+            );
+            case actionTypes.GET_DISCOUNT_VOUCHERS_SUCCESS:
+                toast.info("retrieving data from server")
+            return (
+                Object.assign({}, state, {
+                    discountvouchers: action.payload,
+                    discountloading: false,
+                })
+            );
+
+            case actionTypes.GET_DISCOUNT_VOUCHERS_FAILURE:
+            return (
+                Object.assign({}, state, {
+                    discounterrormessage: action.payload,
+                    discountloading: true,
+                })
+            );
+            //----
+
             case actionTypes.CREATE_VOUCHER:
             return (
                 Object.assign({}, state, {
@@ -73,7 +104,6 @@ const GETVOUCHERS = (state = initialState,action)=>{
             return (
                 Object.assign({}, state, {
                     voucher: action.payload,
-                    updatebuttonloader: false,
                 })
             );
             case actionTypes.DISABLE_VOUCHERS_FAILURE:
@@ -84,24 +114,50 @@ const GETVOUCHERS = (state = initialState,action)=>{
                     updatebuttonloader: true,
                 })
             )
-            case actionTypes.UPDATE_VOUCHER:
+            //-amount update
+            case actionTypes.UPDATE_VOUCHER_BY_AMOUNT:
             return (
                 Object.assign({}, state, {
-                    updatebuttonloader: true,
+                    updatedialogeloader: true,
                 })
             );
-            case actionTypes.UPDATE_VOUCHER_SUCCESS:
+            case actionTypes.UPDATE_VOUCHER_BY_AMOUNT_SUCCESS:
+                toast.success("successful");
             return (
                 Object.assign({}, state, {
                     updatedVoucher: action.payload,
-                    updatebuttonloader: false,
+                    updatedialogeloader:false
                 })
             );
-            case actionTypes.UPDATE_VOUCHER_FAILURE:
+            case actionTypes.UPDATE_VOUCHER_BY_AMOUNT_FAILURE:
+                toast.warn("unable to update voucher");
             return (
                 Object.assign({}, state, {
                     errormessage: action.payload,
-                    updatebuttonloader: true,
+                    updatedialogeloader:true
+                })
+            )
+            //-expirydate update
+            case actionTypes.UPDATE_VOUCHER_BY_EXPIRYDATE:
+            return (
+                Object.assign({}, state, {
+                    updatedialogeloader: true,
+                })
+            );
+            case actionTypes.UPDATE_VOUCHER_BY_EXPIRYDATE_SUCCESS:
+                toast.success("successful");
+            return (
+                Object.assign({}, state, {
+                    updatedVoucher: action.payload,
+                    updatedialogeloader:false
+                })
+            );
+            case actionTypes.UPDATE_VOUCHER_BY_EXPIRYDATE_FAILURE:
+                toast.warn("unable to update");
+            return (
+                Object.assign({}, state, {
+                    errormessage: action.payload,
+                    updatedialogeloader:true
                 })
             )
             //--
@@ -159,4 +215,5 @@ const GETVOUCHERS = (state = initialState,action)=>{
 };
 
 export default GETVOUCHERS;
+
 

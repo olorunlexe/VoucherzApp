@@ -124,7 +124,7 @@ class InputAdornments extends React.Component {
           <InputLabel htmlFor="adornment-length">
             <small>
                 <span htmlFor="adornment-message" 
-                   className={true ? classes.show_message : classes.hide_message}>Wrong credentials?</span></small>
+                   className={true ?classes.hide_message: classes.show_message }>Wrong credentials?</span></small>
           </InputLabel>
           <Input
             name="length"

@@ -10,13 +10,14 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import './headersubComponent.css';
 import Badge from '@material-ui/core/Badge';
 import Menu from '@material-ui/core/Menu';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import {connect} from 'react-redux';
-import {GenerateCSV_voucher} from '../Async_Reg_reduxthunk/Thunk/voucherThunk';
+import {GenerateCSV_voucher,Redeemvoucher} from '../Async_Reg_reduxthunk/Thunk/voucherThunk';
 import Searchsuggestion from '../Common/Tablesuggestion/Tablesuggestion';
+import {keycloak} from '../keycloak-config';
+import RedemptionModal from '../Common/redemptionDialouge/redemptiondialogue';
 import * as Routeconfig from '../Constants/Routesconstants';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Settings from '@material-ui/icons/Settings';
@@ -38,6 +39,17 @@ const styles = theme => ({
       opacity:0
     },
   },
+  integrationbuttoncontainer:{
+    color: 'white',
+    border: 0,
+    margin: `0 10px`,
+    fontSize: 11,
+    cursor: 'pointer',
+    padding: '13px 25px',
+    fontWeight: 'bold',
+    borderRadius: 2,
+    backgroundColor:' #232f3e52'
+},
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
@@ -83,7 +95,10 @@ const styles = theme => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: 365
+      width: 150
+    },
+    '&:focus': {
+      width: 200,
     },
   },
   sectionDesktop: {
@@ -91,6 +106,15 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
+  },
+  stylus:{
+    margin: '10px 10px',
+    color: '#f9fcfd',
+    fontWeight: 500,
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    maxWidth: 120
   },
   sectionMobile: {
     display: 'flex',
@@ -102,12 +126,24 @@ const styles = theme => ({
 
 
 class PrimarySearchAppBar extends React.Component {
-  state = {
-    anchorEl: null,
-    mobileMoreAnchorEl: null,
-    search:'',
-    vouch:[]
-  };
+  constructor(){
+    super();
+      this.state = {
+        anchorEl: null,
+        mobileMoreAnchorEl: null,
+        search:'',
+        vouch:[],
+        merchant_info:{},
+        codeDialogue:"",
+        amountDialogue:"",
+        redemptionselect:"",
+        giftswitch: false
+      };
+    this.onDialogeModalFormsChange = this.onDialogeModalFormsChange.bind(this);
+    this.onDialogeModalFormsChangeselect = this.onDialogeModalFormsChangeselect.bind(this);
+    this.handleredemption = this.handleredemption.bind(this);
+  }
+  
 
   handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -126,14 +162,41 @@ class PrimarySearchAppBar extends React.Component {
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
+  handleuserlogout =() => {
+    keycloak.logout(Routeconfig.KEYCLOACK_ENDUSERSESSION);
+}
+onDialogeModalFormsChange =(event)=>{
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
 
+onDialogeModalFormsChangeselect =(event)=>{
+  if(event.target.value === 1){
+     return this.setState({giftswitch:true})
+      
+   }
+   if(event.target.value === 2 || event.target.value === 3){
+    return this.setState({giftswitch:false})
+  }
+  this.setState({
+    [event.target.name]: event.target.value
+  });
+}
+handleredemption=(event)=>{
+  console.log(this.state.giftswitch)
+
+   let obj = {
+
+   }
+   this.props.Redeemvoucher(obj)
+}
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const { classes, onDrawerToggle } = this.props;
-    
 
     const renderMenu = (
       <Menu
@@ -208,34 +271,43 @@ class PrimarySearchAppBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
+              <div className={classes.stylus}>{this.props.merchantname}</div>
               <div>
-                <FloatButton 
-                  GenerateCSV_voucher = {this.props.GenerateCSV_voucher}
-                  // handleRoutetoTutorial = {this.props.handleRoutetoTutorial}
-                  />
+                <FloatButton GenerateCSV_voucher = {this.props.GenerateCSV_voucher}/>
               </div>
               <div>
-                <button className="integration-button-container">Export voucher</button>
+                <button 
+                  className={classes.integrationbuttoncontainer}
+                  onClick={this.handleuserlogout}
+                  >{keycloak.authenticated ? 'Logout' : ''}</button>
               </div>
-              <div>
-                <button className="integration-button-container">Logout</button>
-              </div>
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <Settings/>
-              </IconButton>
+                <RedemptionModal
+                  {...this.state}
+                  handleredemption = {this.handleredemption}
+                  onDialogeModalFormsChangeselect = {this.onDialogeModalFormsChangeselect}
+                  onDialogeModalFormsChange = {this.onDialogeModalFormsChange}
+                />
+              { 
+                //check from keycloak isAdmin atrrib to validate for admins
+              (this.props.isAdmin) && 
+                <section>
+                      <IconButton
+                        aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                        aria-haspopup="true"
+                        onClick={this.handleProfileMenuOpen}
+                        color="inherit"
+                      >
+                          <AccountCircle />
+                      </IconButton>
+                      <IconButton
+                        aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                        aria-haspopup="true"
+                        color="inherit"
+                      >
+                        <Settings/>
+                      </IconButton>
+                  </section>
+                }
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" 
@@ -267,7 +339,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    GenerateCSV_voucher: () => dispatch(GenerateCSV_voucher())
+    GenerateCSV_voucher: () => dispatch(GenerateCSV_voucher()),
+    Redeemvoucher: () =>dispatch(Redeemvoucher())
   }
 } 
 

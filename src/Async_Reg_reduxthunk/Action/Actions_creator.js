@@ -19,6 +19,29 @@ export const getVouchersFailure = (payload) => {
         payload
     }
 }
+
+//--get discount voucher
+export const getAlldiscountVouchers = () => {
+    return {
+        type: types.GET_VOUCHERS
+    }
+}
+export const getAlldiscountVoucherSuccess = (payload) => {
+    return {
+        type: types.GET_DISCOUNT_VOUCHERS_SUCCESS,
+        payload
+    }
+}
+
+export const getAlldiscountVouchersFailure = (payload) => {
+    return {
+        type: types.GET_DISCOUNT_VOUCHERS_FAILURE,
+        payload
+    }
+}
+//---
+
+
 export const createVoucher = () => {
     return {
         type: types.CREATE_VOUCHER
@@ -54,23 +77,44 @@ export const disableVoucherFailure = (payload) => {
         payload
     }
 }
-export const updateVoucher = () => {
+
+//updateexpirydate
+export const UpdatevoucherByExpirydate = () => {
     return {
-        type: types.UPDATE_VOUCHER
+        type: types.UPDATE_VOUCHER_BY_EXPIRYDATE
     }
 }
-export const updateVoucherSuccess = (payload) => {
+export const UpdatevoucherByExpirydateSuccess = (payload) => {
     return {
-        type: types.UPDATE_VOUCHER_SUCCESS,
+        type: types.UPDATE_VOUCHER_BY_EXPIRYDATE_SUCCESS,
         payload
     }
 }
-export const updateVoucherFailure = (payload) => {
+export const UpdatevoucherByExpirydateFailure = (payload) => {
     return {
-        type: types.UPDATE_VOUCHER_FAILURE,
+        type: types.UPDATE_VOUCHER_BY_EXPIRYDATE_FAILURE,
         payload
     }
 }
+//update amount
+export const UpdatevoucherByAmount = () => {
+    return {
+        type: types.UPDATE_VOUCHER_BY_AMOUNT
+    }
+}
+export const UpdatevoucherByAmountSuccess = (payload) => {
+    return {
+        type: types.UPDATE_VOUCHER_BY_AMOUNT_SUCCESS,
+        payload
+    }
+}
+export const UpdatevoucherByAmountFailure = (payload) => {
+    return {
+        type: types.UPDATE_VOUCHER_BY_AMOUNT_FAILURE,
+        payload
+    }
+}
+
 
 export const viewSingleVoucher =()=>{
     return {
@@ -106,6 +150,26 @@ export const generateCsvFailure = (payload) => {
         payload
     }
 }
+
+
+export const redeemvoucher =()=>{
+    return {
+        type: types.REDEEM_VOUCHER
+    }
+}
+export const redeemvoucherSuccess = (payload) => {
+    return {
+        type: types.REDEEM_VOUCHER_SUCCESS,
+        payload
+    }
+}
+export const redeemvoucherFailure = (payload) => {
+    return {
+        type: types.REDEEM_VOUCHER_FAILURE,
+        payload
+    }
+}
+
 
 
 

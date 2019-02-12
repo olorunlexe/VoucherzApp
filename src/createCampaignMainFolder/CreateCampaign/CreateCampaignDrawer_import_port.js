@@ -13,6 +13,7 @@ import Createcampaignvoucategory from './createvoucher_cardCategory';
 import Form from '../../sectionform/section_a_form';
 import Inputform2 from "../../sectionform/section_b_form2";
 import DiscountForm from "../../sectionform/section_c_form";
+import {keycloak} from '../../keycloak-config';
 //import action creators
 import {openPanel2,openBulk,openCategory,TooglePanel0,TooglePanel1} from '../../store/actionCreator';
 import {Generatevoucher} from '../../Async_Reg_reduxthunk/Thunk/voucherThunk';
@@ -76,7 +77,7 @@ class CreateCampaignDrawer extends React.Component {
       prefix:null,
       suffix:null,
       vouchertype:null,
-      merchantId:'123456784',
+      merchantId: keycloak.idTokenParsed.sub,
       multiline:null,
       MetaData:"",
       singleDefaultvalue:1,
@@ -240,7 +241,6 @@ class CreateCampaignDrawer extends React.Component {
     //   "DiscountAmount":0,
     //   "GiftAmount":9000,
     obj[`${formType}Amount`] = Number(this.state.amount)
-    console.log("this is the req.body ::",obj)
     //call the redux-thunk to dispatch creationofvoucher
     if(creationvalidation(obj))
           this.setState({CreationDate_message:true})

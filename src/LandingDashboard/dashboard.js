@@ -9,7 +9,7 @@ import {Route} from 'react-router-dom';
 import RouterMain from '../routermain';
 import Loading from '../Loader/Loader';
 import {connect} from 'react-redux';
-import {Allvouchers,serviceCall} from '../Async_Reg_reduxthunk/Thunk/voucherThunk';
+import {Allvouchers} from '../Async_Reg_reduxthunk/Thunk/voucherThunk';
 import * as Routeconstants from '../Constants/Routesconstants';
 import {withRouter} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
@@ -171,7 +171,11 @@ class Paperbase extends React.Component {
       suggestions:[],
 
       // key: null, 
-      authenticated: false
+      authenticated: false,
+      isAdmin:null,
+
+      //keycloak states for cred.
+      merchantname:""
     };
     this.handleOnChangeSearch = this.handleOnChangeSearch.bind(this);
   }
@@ -180,12 +184,13 @@ class Paperbase extends React.Component {
   componentDidMount(){
     keycloak.init({ onLoad: 'login-required', checkLoginIframeInterval: 1 }).success(authenticated => {
       if (keycloak.authenticated) {
-        sessionStorage.setItem('kctoken', keycloak.token);
-        //Updating some value in store to re-render the component
-        // store.dispatch(Allvouchers());
+        //setstate of the isAdmin in the state
+      this.setState({isAdmin:keycloak.idTokenParsed.isAdmin})
+      keycloak.loadUserProfile()
+        .success(u => { this.setState({merchantname:u.username,isAdmin:keycloak.idTokenParsed.isAdmin})}).error(err=>{console.log(err)})
         setTimeout(() => this.setState({ isLoading: false }), 100);
+         // store.dispatch(Allvouchers());
         this.props.Allvouchers();
-
         setInterval(() => {
           keycloak.updateToken(10).error(() => keycloak.logout());
           sessionStorage.setItem('kctoken', keycloak.token);
@@ -220,13 +225,12 @@ class Paperbase extends React.Component {
         })
    }
    this.setState(()=>({suggestions}))
-    
  }
-  handleloadMore = e =>{
-    
-  }
+
+  handleloadMore = e =>{}
  
   render() {
+    
     const { classes } = this.props;
      const landingDashboard = (
     <MuiThemeProvider theme={theme}>
@@ -241,6 +245,7 @@ class Paperbase extends React.Component {
                     variant="temporary"
                     open={this.state.mobileOpen}
                     onClose={this.handleDrawerToggle}
+                    {...this.state}
                     {...props}
                   />
                     )
@@ -250,19 +255,21 @@ class Paperbase extends React.Component {
                 <Hidden xsDown implementation="css">
                   <Route path={Routeconstants.LANDING} render={
                     props => (
-                      <LeftSidebar PaperProps={{ style: { width: drawerWidth } }} {...props} />
+                      <LeftSidebar 
+                        PaperProps={{ style: { width: drawerWidth } }}
+                        {...this.state}
+                        {...props} />
                     )
                   }/>
-                
                 </Hidden>
               </nav>
               <div className={classes.appContent}>
               <Route path={Routeconstants.LANDING} render={
                     props => (
                       <Header  
+                        onDrawerToggle={this.handleDrawerToggle} 
                         {...props}
                         {...this.state}
-                        onDrawerToggle={this.handleDrawerToggle} 
                         handleOnChangeSearch={this.handleOnChangeSearch}
                         vouchers={this.props.vouchers}
                         />
